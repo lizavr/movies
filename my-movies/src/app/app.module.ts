@@ -11,16 +11,17 @@ import { AuthModule } from './auth/auth.module';
 import { CatalogModule } from './catalog/catalog.module';
 import { FooterComponent } from './footer/footer.component';
 import { MyCollectionModule } from './my-collection/my-collection.module';
+import { HomeModule } from './home/home.module';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
-    HomeComponent,
     NotFoundComponent,
     FooterComponent,
   ],
   imports: [
+    HomeModule,
     AuthModule,
     CatalogModule,
     MyCollectionModule,
