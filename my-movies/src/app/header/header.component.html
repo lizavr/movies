@@ -1,5 +1,24 @@
 <div class="wrapper">
-  <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">Home</a>
-  <a routerLink="/catalog" routerLinkActive="active">Catalog</a>
-  <a routerLink="/my-collection" routerLinkActive="active">My collections</a>
+  <div class="navigation">
+    <div class="navigation__links">
+      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">Home</a>
+      <a routerLink="/catalog" routerLinkActive="active">Catalog</a>
+      <a routerLink="/my-collection" routerLinkActive="active">My collection</a>
+    </div>
+    <div class="navigation__tools">
+
+      <a routerLink="/auth/login" routerLinkActive="active" class="auth">
+        <label class="login_btn"></label>login
+      </a>
+
+      <a routerLink="/auth/login" routerLinkActive="active" class="auth">
+        <label class="logout_btn"></label>log out
+      </a>
+
+      <a routerLink="/profile" routerLinkActive="active" class="profile">
+        <label class="profile_btn"></label>profile
+      </a>
+
+    </div>
+  </div>
 </div>

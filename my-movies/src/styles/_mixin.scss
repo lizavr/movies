@@ -1,0 +1,10 @@
+@mixin profileIcon($type) {
+  content: "";
+  background-image: url("../assets/icons/#{$type}.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: inline-block;
+  height: 22px;
+  width: 22px;
+  margin-right: 0.3rem;
+}
