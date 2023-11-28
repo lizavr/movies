@@ -1,24 +1,22 @@
 <div class="wrapper">
   <div class="navigation">
-    <div class="navigation__links">
-      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">Home</a>
-      <a routerLink="/catalog" routerLinkActive="active">Catalog</a>
-      <a routerLink="/my-collection" routerLinkActive="active">My collection</a>
+    <div class="navigation__links menu-block"> <!--open-->
+      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}"
+        class="menu-block__item">Home</a>
+      <a routerLink="/catalog" routerLinkActive="active" class="menu-block__item">Catalog</a>
+      <a routerLink="/my-collection" routerLinkActive="active" class="menu-block__item">My collection</a>
     </div>
     <div class="navigation__tools">
-
       <a routerLink="/auth/login" routerLinkActive="active" class="auth">
         <label class="login_btn"></label>login
       </a>
-
       <a routerLink="/auth/login" routerLinkActive="active" class="auth">
         <label class="logout_btn"></label>log out
       </a>
-
       <a routerLink="/profile" routerLinkActive="active" class="profile">
         <label class="profile_btn"></label>profile
       </a>
-
     </div>
+    <a class="navigation__icon menu__icon"></a><!--open-->
   </div>
 </div>
