@@ -1,6 +1,6 @@
 <div class="wrapper">
   <div class="navigation">
-    <div class="navigation__links menu-block"> <!--open-->
+    <div class="navigation__links menu-block open" [class.open]="isOpen">
       <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}"
         class="menu-block__item">Home</a>
       <a routerLink="/catalog" routerLinkActive="active" class="menu-block__item">Catalog</a>
@@ -17,6 +17,6 @@
         <label class="profile_btn"></label>profile
       </a>
     </div>
-    <a class="navigation__icon menu__icon"></a><!--open-->
+    <a class="navigation__icon menu__icon" (click)="isOpen = !isOpen" [class.open]="isOpen"></a>
   </div>
 </div>

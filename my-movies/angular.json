@@ -30,6 +30,7 @@
               "src/assets"
             ],
             "styles": [
+              "node_modules/@coreui/coreui/dist/css/coreui.min.css",
               "@angular/material/prebuilt-themes/purple-green.css",
               "src/styles.scss"
             ]

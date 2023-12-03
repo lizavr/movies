@@ -1,1 +1,15 @@
-<p>catalog works!</p>
+<div class="wrapper">
+  <div class="control">
+    <div class="search-container">
+      <input class="search" placeholder="I'm looking for..." />
+      <span class="cross">&#215;</span>
+      <span class="loupe"></span>
+    </div>
+  </div>
+  <div class="catalog-page">
+    <div class="nav-bar"></div>
+    <div class="catalog-cards">
+      <app-card *ngFor="let card of cards" [item]="card"></app-card>
+    </div>
+  </div>
+</div>
