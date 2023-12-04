@@ -1,11 +1,11 @@
-@import '../variables';
-@import '../mixin';
+@import "../variables";
+@import "../mixin";
 
 $color-outline: $gray-color;
 $color-focus: $main-color;
 $color-invalid: #f03800;
 
-input:not([type='submit'], [type='button'], [type='reset']) {
+input:not([type="submit"], [type="button"], [type="reset"]) {
   padding: 12px 14px;
   border-radius: 5px;
   font-family: inherit;
@@ -15,21 +15,20 @@ input:not([type='submit'], [type='button'], [type='reset']) {
   border: solid 1px $color-outline;
   transition: all 0.3s ease;
   background-color: white;
-
-  &:invalid,
-  &.invalid {
-    border: solid 1px $color-invalid;
-  }
 }
 
-input[type='button'],
-input[type='submit'],
+input.ng-invalid.ng-touched {
+  border: solid 1px $color-invalid;
+}
+
+input[type="button"],
+input[type="submit"],
 button {
   @include button();
 }
 
-input[type='reset'] {
-  @include button('transparent');
+input[type="reset"] {
+  @include button("transparent");
 }
 
 select {
@@ -57,16 +56,17 @@ select {
   }
 
   &:has(option:checked:not([value])),
-  &:has(option:checked:not([value=''])) {
+  &:has(option:checked:not([value=""])) {
     color: black;
   }
 }
 
 select,
-input:not([type='submit'], [type='button'], [type='reset']) {
+input:not([type="submit"], [type="button"], [type="reset"]) {
   @media (hover: hover) {
     &:hover {
       border: solid 1px $border-hover-color;
+      background-color: $hover-input-color;
       transition: all 0.3s ease;
     }
   }

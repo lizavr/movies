@@ -1,0 +1,41 @@
+@import "../../../styles/mixin";
+
+.wrapper-auth {
+  margin: 20vh auto 0;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+app-auth-links {
+  display: inline-block;
+  margin-bottom: 20px;
+}
+
+input,
+button {
+  width: 300px;
+  margin-bottom: 20px;
+}
+
+button {
+  font-size: 1.2rem;
+}
+
+.password-block {
+  position: relative;
+}
+
+.eye {
+  position: absolute;
+  right: 10px;
+  top: 15%;
+  @include profileIcon("hide");
+
+  &.open {
+    @include profileIcon("view");
+  }
+}
