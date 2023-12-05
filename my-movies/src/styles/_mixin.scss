@@ -1,4 +1,4 @@
-@import './variables';
+@import "./variables";
 
 @mixin profileIcon($type) {
   content: "";
@@ -24,6 +24,12 @@
   @media (hover: hover) {
     &:hover {
       background-color: #4b3939;
+    }
+  }
+
+  @if ([disabled]) {
+    &:hover {
+      cursor: not-allowed;
     }
   }
 

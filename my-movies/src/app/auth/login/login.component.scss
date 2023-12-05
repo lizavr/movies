@@ -18,7 +18,7 @@ app-auth-links {
 input,
 button {
   width: 300px;
-  margin-bottom: 20px;
+  margin: 10px 0;
 }
 
 button {
@@ -32,7 +32,7 @@ button {
 .eye {
   position: absolute;
   right: 10px;
-  top: 15%;
+  top: 30%;
   @include profileIcon("hide");
 
   &.open {

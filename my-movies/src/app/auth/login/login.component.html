@@ -1,11 +1,23 @@
 <div class="wrapper wrapper-auth">
   <form (ngSubmit)="onSubmit(f)" #f="ngForm">
     <app-auth-links></app-auth-links>
-    <input type="email" placeholder="Enter your email address" ngModel name="email" #email="ngModel" required email>
-    <div class="password-block">
-      <input type="password" placeholder="Password" ngModel name="password" #password="ngModel" required password>
-      <span class="eye"></span>
+    <div class="auth-link">
+      <input type="email" placeholder="Enter your email address" ngModel name="email" #email="ngModel" required email>
+      <div class="comment" *ngIf="email.invalid && email.touched">
+        Please, enter correct email (ex&#64;ex.com)
+      </div>
     </div>
+    <div class="auth-link">
+      <div class="password-block">
+        <input type="password" placeholder="Password" ngModel name="password" #password="ngModel" required password
+          minlength="6">
+        <span class="eye"></span>
+      </div>
+      <div class="comment" *ngIf="password.invalid && password.touched">
+        Sorry, it's wrong. Length should be more 6.
+      </div>
+    </div>
+
     <button type="submit" [disabled]="!f.valid">Login</button>
   </form>
 </div>
