@@ -10,8 +10,6 @@ export class CatalogComponent implements OnInit {
   cards: CardModel[] = [];
 
   ngOnInit() {
-    console.log('fgjhgf');
-
     this.cards = [
       {
         url: '../../../assets/img/kocalı.jpg',

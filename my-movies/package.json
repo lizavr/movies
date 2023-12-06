@@ -26,6 +26,7 @@
     "@coreui/angular": "^4.7.0",
     "@coreui/coreui": "^4.3.2",
     "@coreui/icons-angular": "^4.7.0",
+    "angular-split": "^17.1.1",
     "express": "^4.18.2",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",

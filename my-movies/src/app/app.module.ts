@@ -7,12 +7,12 @@ import { HeaderComponent } from './header/header.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AuthModule } from './auth/auth.module';
-import { CatalogModule } from './catalog/catalog.module';
 import { FooterComponent } from './footer/footer.component';
 import { MyCollectionModule } from './my-collection/my-collection.module';
 import { HomeModule } from './home/home.module';
 
 import { MatSidenavModule } from '@angular/material/sidenav';
+import { CatalogModule } from './catalog/catalog.module';
 
 @NgModule({
   declarations: [
