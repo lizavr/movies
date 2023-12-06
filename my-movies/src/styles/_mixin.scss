@@ -27,12 +27,6 @@
     }
   }
 
-  @if ([disabled]) {
-    &:hover {
-      cursor: not-allowed;
-    }
-  }
-
   @if ($type == default) {
     font-weight: 700;
     background-color: $main-color;
@@ -50,5 +44,9 @@
   &.button-large {
     padding: 1rem;
     font-size: 0.9em;
+  }
+
+  &:disabled {
+    cursor: not-allowed;
   }
 }

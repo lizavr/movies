@@ -1,16 +1,43 @@
 <div class="wrapper wrapper-auth">
-  <form>
+  <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
     <app-auth-links></app-auth-links>
-    <input type="text" placeholder="Username" required>
-    <input type="email" placeholder="Enter your email address" required>
-    <div class="password-block">
-      <input type="password" placeholder="Password" required>
-      <span class="eye"></span>
+    <div class="auth-link">
+      <input type="text" placeholder="Username" formControlName="username" />
+      <div *ngIf="!registerForm.get('username')?.valid && registerForm.get('username')?.touched">
+        Sorry, it's wrong. Length should be more 2.
+      </div>
     </div>
-    <div class="password-block">
-      <input type="password" placeholder="Confirm password" required>
-      <span class="eye"></span>
+
+    <div class="auth-link">
+      <input type="email" placeholder="Enter your email address" formControlName="email" />
+      <div class="password-block">
+        <div *ngIf="!registerForm.get('email')?.valid && registerForm.get('email')?.touched" class="help-block">
+          Please, enter correct email (ex&#64;ex.com)</div>
+      </div>
     </div>
-    <button>Registration</button>
+
+    <div class="auth-link">
+      <div class="password-block">
+        <input type="{{ showPassword ? 'text' : 'password'}}" [(ngModel)]="password" placeholder="Password"
+          name="password" formControlName="password" />
+        <span class="eye" [ngClass]="{'open': showPassword}" (click)="togglePasswordVisibility('password')"></span>
+        <div *ngIf="!registerForm.get('password')?.valid && registerForm.get('password')?.touched">
+          Please, use at least 6 characters.
+        </div>
+      </div>
+    </div>
+
+    <div class="auth-link">
+      <div class="password-block">
+        <input placeholder="Confirm password" formControlName="confirmPassword"
+          type="{{showConfirmPassword ? 'text' : 'password'}}" [(ngModel)]="confirmPassword" name="confirmPassword" />
+        <span class="eye" [ngClass]="{'open': showConfirmPassword}"
+          (click)="togglePasswordVisibility('confirmPassword')"></span>
+      </div>
+      <div *ngIf="registerForm.errors?.['mismatch'] && registerForm.get('confirmPassword')?.touched">
+        Sorry, try repeat again</div>
+    </div>
+
+    <button [disabled]="!registerForm.valid">Registration</button>
   </form>
 </div>
