@@ -1,8 +1,18 @@
-<as-split>
-  <as-split-area>
-    111111111111
-  </as-split-area>
-  <as-split-area>
-    22222222222
-  </as-split-area>
-</as-split>
+<div class="wrapper movie-card">
+  <as-split direction="horizontal" gutterSize="5">
+    <as-split-area class="first" [size]="50" [minSize]="20" [maxSize]="80">
+      <div class="movie-card-left">
+        <img class="movie-card-left-img" src={{card?.url}} />
+        <p class="movie-card-left-name">{{card?.title}}</p>
+        <button>Buy</button>
+      </div>
+      <img class="baby" src="../../../assets/evrbddancen0w-92.gif" alt="">
+    </as-split-area>
+    <as-split-area [size]="50">
+      <div class="movie-card-right">
+        <h2>{{card?.title}}</h2>
+        <p class="movie-card-right-description">{{card?.description}}</p>
+      </div>
+    </as-split-area>
+  </as-split>
+</div>

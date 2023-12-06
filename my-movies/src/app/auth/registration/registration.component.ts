@@ -43,6 +43,7 @@ export class RegistrationComponent implements OnInit {
     const confirmPassword = formGroup.get('confirmPassword')?.value;
     return password === confirmPassword ? null : { mismatch: true };
   }
+
   onSubmit() {
     console.log('Form Data:', this.registerForm);
   }

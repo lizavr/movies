@@ -1,0 +1,43 @@
+@import "../../../styles/variables";
+.movie-card {
+  height: 90vh;
+}
+
+.movie-card-left {
+  padding: 50px 10px;
+
+  &-img {
+    height: 60vh;
+    width: 40vw;
+  }
+
+  &-name {
+    margin: 30px 0;
+    background-color: $carousel-background;
+    font-size: 2rem;
+    white-space: nowrap;
+  }
+}
+
+.movie-card-right {
+  padding-top: 20vh;
+  padding-left: 20px;
+  text-align: justify;
+}
+
+button {
+  display: block;
+  width: 20vw;
+  margin: 0 10px 0 auto;
+}
+
+.first {
+  display: flex;
+  justify-content: space-between;
+  gap: 10vw;
+  .baby {
+    width: 180px;
+    height: 230px;
+    align-self: center;
+  }
+}
