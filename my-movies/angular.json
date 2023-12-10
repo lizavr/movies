@@ -30,6 +30,12 @@
               "src/assets"
             ],
             "styles": [
+            "node_modules/ngx-spinner/animations/ball-clip-rotate-multiple.css",
+            "node_modules/ngx-spinner/animations/ball-fussion.css",
+            "node_modules/ngx-spinner/animations/ball-spin-clockwise.css",
+            "node_modules/ngx-spinner/animations/cog.css",
+            "node_modules/ngx-spinner/animations/square-jelly-box.css",
+            "node_modules/ngx-spinner/animations/timer.css",
               "node_modules/@coreui/coreui/dist/css/coreui.min.css",
               "@angular/material/prebuilt-themes/purple-green.css",
               "src/styles.scss"

@@ -6,10 +6,11 @@
       <span class="loupe"></span>
     </div>
   </div>
-  <div class="catalog-page">
+  <ngx-spinner name="sp5" [fullScreen]="true" type="square-jelly-box" size="large" *ngIf="isLoading"></ngx-spinner>
+  <div class="catalog-page" *ngIf="!isLoading">
     <div class="nav-bar"></div>
     <div class="catalog-cards">
-      <app-card *ngFor="let card of cards" [item]="card" (click)="onCardClick(card.id)"></app-card>
+      <app-card *ngFor="let card of cards" [item]="card" (click)="onCardClick(card.id.toString())"></app-card>
     </div>
   </div>
 </div>

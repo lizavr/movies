@@ -1,17 +1,17 @@
 <div class="wrapper movie-card">
   <as-split direction="horizontal" gutterSize="5">
-    <as-split-area class="first" [size]="50" [minSize]="20" [maxSize]="80">
+    <as-split-area class="first" [size]="60" [minSize]="20" [maxSize]="70">
       <div class="movie-card-left">
-        <img class="movie-card-left-img" src={{card?.url}} />
         <p class="movie-card-left-name">{{card?.title}}</p>
+        <img class="movie-card-left-img"
+          [src]="card?.poster_path ? 'https://image.tmdb.org/t/p/w1280' + card?.backdrop_path : '../../assets/img/waiting.gif'" />
         <button>Buy</button>
       </div>
-      <img class="baby" src="../../../assets/evrbddancen0w-92.gif" alt="">
     </as-split-area>
-    <as-split-area [size]="50">
+    <as-split-area [size]="40">
       <div class="movie-card-right">
         <h2>{{card?.title}}</h2>
-        <p class="movie-card-right-description">{{card?.description}}</p>
+        <p class="movie-card-right-description">{{card?.overview}}</p>
       </div>
     </as-split-area>
   </as-split>

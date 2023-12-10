@@ -1,5 +1,5 @@
 <div class="wrapper wrapper-auth">
-  <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+  <form [formGroup]="registerForm" (ngSubmit)="onSubmit(registerForm)">
     <app-auth-links></app-auth-links>
     <div class="auth-link">
       <input type="text" placeholder="Username" formControlName="username" />

@@ -3,9 +3,13 @@ import {
   AbstractControl,
   FormControl,
   FormGroup,
+  NgForm,
   ValidationErrors,
   Validators,
 } from '@angular/forms';
+import { AuthResponseData, AuthService } from '../auth.service';
+import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-registration',
@@ -13,11 +17,15 @@ import {
   styleUrl: './registration.component.scss',
 })
 export class RegistrationComponent implements OnInit {
+  isLoading = false;
   registerForm: FormGroup = new FormGroup({});
   password: string = '';
   confirmPassword: string = '';
   showConfirmPassword: boolean = false;
   showPassword: boolean = false;
+  error: string | null = null;
+
+constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit(): void {
     this.registerForm = new FormGroup(
@@ -44,8 +52,34 @@ export class RegistrationComponent implements OnInit {
     return password === confirmPassword ? null : { mismatch: true };
   }
 
-  onSubmit() {
-    console.log('Form Data:', this.registerForm);
+  onSubmit(form: FormGroup) {
+    if (!form.valid) {
+      return;
+    }
+    const email = form.value.email;
+    const password = form.value.password;
+    const userName = form.value.userName;
+
+    let authObs: Observable<AuthResponseData>;
+
+    this.isLoading = true;
+
+    authObs = this.authService.signup(email, password, userName);
+
+    authObs.subscribe(
+      (resData) => {
+        console.log(resData);
+        this.isLoading = false;
+        this.router.navigate(['/collection']);
+      },
+      (errorMessage) => {
+        console.log(errorMessage);
+        this.error = errorMessage;
+        this.isLoading = false;
+      }
+    );
+
+    form.reset();
   }
 
   togglePasswordVisibility(field: 'password' | 'confirmPassword') {

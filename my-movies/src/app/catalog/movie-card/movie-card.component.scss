@@ -4,17 +4,29 @@
 }
 
 .movie-card-left {
-  padding: 50px 10px;
+  padding: 50px;
+  margin: auto 0;
 
   &-img {
-    height: 60vh;
-    width: 40vw;
+    height: 27vw;
+    width: 48vw;
+    margin-bottom: 2rem;
+
+    &:hover {
+      transform: scale(1.05);
+      cursor: pointer;
+      transition: transform 0.3s ease;
+      box-shadow: 0px 0px 20px 5px $hover-color;
+      -webkit-box-shadow: 0px 0px 20px 5px $hover-color;
+      -moz-box-shadow: 0px 0px 20px 5px $hover-color;
+    }
   }
 
   &-name {
-    margin: 30px 0;
+    margin: 3rem;
     background-color: $carousel-background;
-    font-size: 2rem;
+    font-size: 3rem;
+    font-weight: 700;
     white-space: nowrap;
   }
 }
