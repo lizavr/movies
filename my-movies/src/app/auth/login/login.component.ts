@@ -3,6 +3,7 @@ import { NgForm } from '@angular/forms';
 import { AuthResponseData, AuthService } from '../auth.service';
 import { Observable } from 'rxjs/internal/Observable';
 import { Router } from '@angular/router';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-login',
@@ -13,7 +14,11 @@ export class LoginComponent {
   isLoading = false;
   error: string | null = null;
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private spinner: NgxSpinnerService
+  ) {}
 
   onSubmit(form: NgForm) {
     if (!form.valid) {
@@ -25,21 +30,22 @@ export class LoginComponent {
     let authObs: Observable<AuthResponseData>;
 
     this.isLoading = true;
+    this.spinner.show('sp5');
 
-      authObs = this.authService.login(email, password);
+    authObs = this.authService.login(email, password);
 
-    authObs.subscribe(
-      (resData) => {
-        console.log(resData);
+    authObs.subscribe({
+      next: (resData) => {
         this.isLoading = false;
+        this.spinner.hide('sp5');
         this.router.navigate(['/collection']);
       },
-      (errorMessage) => {
-        console.log(errorMessage);
-        this.error = errorMessage;
+      error: (err) => {
+        this.error = err.message;
         this.isLoading = false;
-      }
-    );
+        this.spinner.hide('sp5');
+      },
+    });
 
     form.reset();
   }

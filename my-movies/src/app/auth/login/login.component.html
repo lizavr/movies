@@ -1,4 +1,5 @@
 <div class="wrapper wrapper-auth">
+  <ngx-spinner name="sp5" [fullScreen]="true" type="square-jelly-box" size="large" *ngIf="isLoading"></ngx-spinner>
   <form (ngSubmit)="onSubmit(f)" #f="ngForm">
     <app-auth-links></app-auth-links>
     <div class="auth-link">

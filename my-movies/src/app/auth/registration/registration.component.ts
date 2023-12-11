@@ -3,13 +3,13 @@ import {
   AbstractControl,
   FormControl,
   FormGroup,
-  NgForm,
   ValidationErrors,
   Validators,
 } from '@angular/forms';
 import { AuthResponseData, AuthService } from '../auth.service';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-registration',
@@ -25,7 +25,11 @@ export class RegistrationComponent implements OnInit {
   showPassword: boolean = false;
   error: string | null = null;
 
-constructor(private authService: AuthService, private router: Router) {}
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private spinner: NgxSpinnerService
+  ) {}
 
   ngOnInit(): void {
     this.registerForm = new FormGroup(
@@ -63,6 +67,7 @@ constructor(private authService: AuthService, private router: Router) {}
     let authObs: Observable<AuthResponseData>;
 
     this.isLoading = true;
+    this.spinner.show('sp5');
 
     authObs = this.authService.signup(email, password, userName);
 
@@ -70,12 +75,14 @@ constructor(private authService: AuthService, private router: Router) {}
       (resData) => {
         console.log(resData);
         this.isLoading = false;
+        this.spinner.hide('sp5');
         this.router.navigate(['/collection']);
       },
       (errorMessage) => {
         console.log(errorMessage);
         this.error = errorMessage;
         this.isLoading = false;
+        this.spinner.hide('sp5');
       }
     );
 

@@ -11,7 +11,7 @@ const routes: Routes = [
       import('./catalog/catalog.module').then((m) => m.CatalogModule),
   },
   {
-    path: 'my-collection',
+    path: 'collection',
     loadChildren: () =>
       import('./my-collection/my-collection.module').then(
         (m) => m.MyCollectionModule

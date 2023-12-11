@@ -4,16 +4,23 @@
       <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}"
         class="menu-block__item">Home</a>
       <a routerLink="/catalog" routerLinkActive="active" class="menu-block__item">Catalog</a>
-      <a routerLink="/my-collection" routerLinkActive="active" class="menu-block__item">My collection</a>
+      <a routerLink="/collection" routerLinkActive="active" class="menu-block__item" *ngIf="isAuthenticated">My
+        collection</a>
     </div>
     <div class="navigation__tools">
-      <a routerLink="/auth/login" routerLinkActive="active" class="auth">
+      <!-- <a routerLink="/auth/login" routerLinkActive="active" class="auth" *ngIf="!isAuthenticated">
         <label class="login_btn"></label>login
       </a>
-      <a routerLink="/auth/login" routerLinkActive="active" class="auth">
+      <a routerLink="/auth/login" routerLinkActive="active" class="auth" *ngIf="isAuthenticated" (click)="logOut()">
         <label class="logout_btn"></label>log out
+      </a> -->
+
+      <a routerLink="/auth/login" routerLinkActive="active" class="auth" (click)="isAuthenticated ? logOut() : null">
+        <label [class]="isAuthenticated ? 'logout_btn' : 'login_btn'"></label>
+        {{ isAuthenticated ? 'log out' : 'login' }}
       </a>
-      <a routerLink="/profile" routerLinkActive="active" class="profile">
+
+      <a routerLink="/profile" routerLinkActive="active" class="profile" *ngIf="isAuthenticated">
         <label class="profile_btn"></label>profile
       </a>
     </div>

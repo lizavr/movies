@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { catchError, map, switchMap, tap } from 'rxjs/operators';
 import { throwError, BehaviorSubject, Observable } from 'rxjs';
@@ -16,10 +16,30 @@ export interface AuthResponseData {
 }
 
 @Injectable({ providedIn: 'root' })
-export class AuthService {
+export class AuthService implements OnInit {
+  storedDataJSON: string | undefined;
   user = new BehaviorSubject<User | null>(null);
 
   constructor(private http: HttpClient) {}
+  ngOnInit(): void {
+    let storedData;
+    if (this.storedDataJSON !== null && this.storedDataJSON !== undefined) {
+      storedData = JSON.parse(this.storedDataJSON);
+    }
+
+    if (storedData) {
+      const loadedUser = new User(
+        storedData.email,
+        storedData.id,
+        storedData._token,
+        new Date(storedData._tokenExpirationDate)
+      );
+
+      if (loadedUser.token) {
+        this.user.next(loadedUser);
+      }
+    }
+  }
 
   signup(email: string, password: string, userName: string) {
     return this.http
@@ -32,13 +52,13 @@ export class AuthService {
         }
       )
       .pipe(
-        switchMap(response => {
+        switchMap((response) => {
           // Now update the user profile with the userName
           return this.updateUserName(response, userName);
         }),
-        catchError(error => {
+        catchError((error) => {
           // Handle any errors here
-          return throwError(error);
+          return throwError(() => new Error(error));
         })
       )
       .pipe(
@@ -77,15 +97,20 @@ export class AuthService {
       );
   }
 
-  updateUserName(responseData: AuthResponseData, userName: string): Observable<AuthResponseData> {
-    return this.http.post(
-      'https://www.googleapis.com/identitytoolkit/v3/relyingparty/setAccountInfo?key=AIzaSyA010gvs00_nYgB3h-g9M7lkyKLqMI7mHY',
-      {
-        idToken: responseData.idToken,
-        displayName: userName,
-        returnSecureToken: true
-      }
-    ).pipe(map(() => responseData));
+  updateUserName(
+    responseData: AuthResponseData,
+    userName: string
+  ): Observable<AuthResponseData> {
+    return this.http
+      .post(
+        'https://www.googleapis.com/identitytoolkit/v3/relyingparty/setAccountInfo?key=AIzaSyA010gvs00_nYgB3h-g9M7lkyKLqMI7mHY',
+        {
+          idToken: responseData.idToken,
+          displayName: userName,
+          returnSecureToken: true,
+        }
+      )
+      .pipe(map(() => responseData));
   }
 
   private handleAuthentication(
@@ -97,12 +122,26 @@ export class AuthService {
     const expirationDate = new Date(new Date().getTime() + expiresIn * 1000);
     const user = new User(email, userId, token, expirationDate);
     this.user.next(user);
+
+    const userData = {
+      email: email,
+      id: userId,
+      _token: token,
+      _tokenExpirationDate: expirationDate.toISOString(),
+    };
+
+    localStorage.setItem('userData', JSON.stringify(userData));
+  }
+
+  logout() {
+    this.user.next(null);
+    localStorage.removeItem('userData');
   }
 
   private handleError(errorRes: HttpErrorResponse) {
     let errorMessage = 'An unknown error occurred!';
     if (!errorRes.error || !errorRes.error.error) {
-      return throwError(errorMessage);
+      return throwError(() => new Error(errorMessage));
     }
     switch (errorRes.error.error.message) {
       case 'EMAIL_EXISTS':
@@ -115,6 +154,6 @@ export class AuthService {
         errorMessage = 'This password is not correct.';
         break;
     }
-    return throwError(errorMessage);
+    return throwError(() => new Error(errorMessage));
   }
 }
