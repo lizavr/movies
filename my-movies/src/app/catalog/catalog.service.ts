@@ -15,7 +15,7 @@ export class CatalogService {
       .get<CardModel[]>(
         'https://movies-2a4fe-default-rtdb.europe-west1.firebasedatabase.app/movies/popular.json'
       )
-      .pipe(delay(2000));
+      .pipe(delay(1000));
   }
 
   getCardById(id: string): Observable<CardModel | undefined> {
@@ -34,6 +34,19 @@ export class CatalogService {
   getThreeMovies(): Observable<CardModel[]> {
     return this.getAllCards().pipe(
       map((movies: CardModel[]) => movies.splice(0, 5))
+    );
+  }
+
+  getEarliestYear(): Observable<CardModel> {
+    return this.getAllCards().pipe(
+      map((movies: CardModel[]) => {
+        return movies
+          .filter((item) => item.release_date)
+          .sort(
+            (itemA, itemB) =>
+              +itemA.release_date.slice(0, 4) - +itemB.release_date.slice(0, 4)
+          )[0];
+      })
     );
   }
 }

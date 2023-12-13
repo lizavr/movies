@@ -1,0 +1,7 @@
+<p>Released</p>
+<mat-slider min={{rangeValueStart}} max={{rangeValueEnd}}>
+  <input type="range" [value]="currentStart" matSliderStartThumb (input)="updateStartValue($event)">
+  <input type="range" [value]="currentEnd" matSliderEndThumb (input)="updateEndValue($event)">
+</mat-slider>
+<input type="text" [value]="currentStart">
+<input type="text" [value]="currentEnd">

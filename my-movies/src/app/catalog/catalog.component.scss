@@ -63,12 +63,12 @@
   .nav-bar {
     width: 25%;
     padding-right: 2vw;
+    margin-top: 3rem;
   }
 
   .catalog-cards {
     width: 75%;
     height: 100vh;
-
 
     @media only screen and (max-width: 950px) {
       .control {
@@ -119,4 +119,5 @@
   flex-wrap: wrap;
   justify-content: space-around;
   padding-top: 2rem;
+  padding-left: 2rem;
 }

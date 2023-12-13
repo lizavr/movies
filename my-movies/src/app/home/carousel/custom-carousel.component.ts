@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { CatalogService } from '../../catalog/catalog.service';
 import { Subscription } from 'rxjs';
 
@@ -17,7 +17,7 @@ export class CustomCarouselComponent implements OnInit, OnDestroy {
     subtitle: '',
   });
 
-  constructor(private catalogService: CatalogService) {}
+  constructor(private catalogService: CatalogService, private cdRef: ChangeDetectorRef) {}
 
   ngOnInit() {
     // this.slides[0] = {
@@ -60,11 +60,12 @@ export class CustomCarouselComponent implements OnInit, OnDestroy {
       .subscribe((cards) => {
         for (let i = 0; i < 5; i++) {
           this.slides[i] = {
-            id: i,
-            src: '../../../assets/img/velikolepnyy-vek-scaled.jpg',
-            title: cards[i].title,
-            subtitle: cards[i].overview,
-          };
+              id: i,
+              src: '../../../assets/img/chernaya-lyubov.jpg',
+              title: 'Black Love',
+              subtitle:
+                'Nihan, the daughter of a wealthy man on the brink of bankruptcy, and Kemal, the son of an ordinary barber, meet on a bus and fall in love at first sight, despite their differences and belonging to completely different worlds',
+            }
         }
         console.log(this.slides);
       });

@@ -6,12 +6,17 @@ import { CommonModule } from '@angular/common';
 import { AngularSplitModule } from 'angular-split';
 import { MovieCardComponent } from './movie-card/movie-card.component';
 import { HttpClientModule } from '@angular/common/http';
-
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 
+import { FiltersModule } from './filters/filters.module';
+
 @NgModule({
-  declarations: [CatalogComponent, CardComponent, MovieCardComponent],
+  declarations: [
+    CatalogComponent,
+    CardComponent,
+    MovieCardComponent,
+  ],
   imports: [
     CommonModule,
     CatalogRoutingModule,
@@ -19,6 +24,7 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
     HttpClientModule,
     NgxSpinnerModule,
     ScrollingModule,
+    FiltersModule,
   ],
 })
 export class CatalogModule {}
