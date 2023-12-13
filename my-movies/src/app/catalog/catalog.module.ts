@@ -8,6 +8,7 @@ import { MovieCardComponent } from './movie-card/movie-card.component';
 import { HttpClientModule } from '@angular/common/http';
 
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { ScrollingModule } from '@angular/cdk/scrolling';
 
 @NgModule({
   declarations: [CatalogComponent, CardComponent, MovieCardComponent],
@@ -17,6 +18,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
     AngularSplitModule,
     HttpClientModule,
     NgxSpinnerModule,
+    ScrollingModule,
   ],
 })
 export class CatalogModule {}

@@ -1,17 +1,21 @@
 <div class="wrapper movie-card">
   <as-split direction="horizontal" gutterSize="5">
-    <as-split-area class="first" [size]="60" [minSize]="20" [maxSize]="70">
+    <as-split-area [size]="60" [minSize]="20" [maxSize]="70">
       <div class="movie-card-left">
-        <p class="movie-card-left-name">{{card?.title}}</p>
+        <p class="movie-card-left-name">{{ card?.title ?? 'Waiting...' }}</p>
         <img class="movie-card-left-img"
-          [src]="card?.poster_path ? 'https://image.tmdb.org/t/p/w1280' + card?.backdrop_path : '../../assets/img/waiting.gif'" />
-        <button>Buy</button>
+          [src]="card?.poster_path ? 'https://image.tmdb.org/t/p/w1280' + card?.backdrop_path : '../../assets/img/waiting.gif'"
+          (click)="toggleFullScreen()" #imageElement/>
+        <button>Watch</button>
       </div>
     </as-split-area>
     <as-split-area [size]="40">
-      <div class="movie-card-right">
+      <div class="movie-card-right" *ngIf="!isLoading">
         <h2>{{card?.title}}</h2>
-        <p class="movie-card-right-description">{{card?.overview}}</p>
+        <p class="rating"><span>Rating:</span> {{ card?.vote_average}}</p>
+        <p class="movie-card-right-description">{{ card?.overview}}</p>
+        <p class="language"><span>Original language:</span> {{ card?.original_language | uppercase}} </p>
+        <p class="release"><span>Release date:</span> {{ card?.release_date }}</p>
       </div>
     </as-split-area>
   </as-split>

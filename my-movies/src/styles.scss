@@ -2,6 +2,25 @@
 @import "./styles/variables";
 @import "./styles/components/buttons";
 @import "./styles/components/inputs";
+
+/* Stylize scrollbar */
+::-webkit-scrollbar {
+  width: 16px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.1);
+  border: solid 16px $menu-background-color;
+  background-clip: padding-box;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: blue;
+  background-clip: padding-box;
+  border-radius: 10px;
+  border: solid 10px $main-color;
+}
+
 html,
 body {
   height: 100%;

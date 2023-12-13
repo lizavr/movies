@@ -4,18 +4,24 @@ import { Router } from '@angular/router';
 import { CatalogService } from './catalog.service';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { ViewEncapsulation } from '@angular/core';
 
 @Component({
   selector: 'app-catalog',
   templateUrl: './catalog.component.html',
   styleUrl: './catalog.component.scss',
+  encapsulation: ViewEncapsulation.None,
 })
 export class CatalogComponent implements OnInit, OnDestroy {
   isLoading = false;
   cards: CardModel[] = [];
   subscription: Subscription | undefined;
 
-  constructor(private router: Router, private catalogService: CatalogService, private spinner:NgxSpinnerService) {}
+  constructor(
+    private router: Router,
+    private catalogService: CatalogService,
+    private spinner: NgxSpinnerService
+  ) {}
 
   ngOnInit() {
     this.isLoading = true;

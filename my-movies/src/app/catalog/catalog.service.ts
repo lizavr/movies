@@ -30,4 +30,10 @@ export class CatalogService {
         delay(3000)
       );
   }
+
+  getThreeMovies(): Observable<CardModel[]> {
+    return this.getAllCards().pipe(
+      map((movies: CardModel[]) => movies.splice(0, 5))
+    );
+  }
 }

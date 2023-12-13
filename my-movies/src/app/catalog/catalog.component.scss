@@ -67,10 +67,8 @@
 
   .catalog-cards {
     width: 75%;
-    display: flex;
-    flex-wrap: wrap;
-    row-gap: 3vw;
-    column-gap: 4vw;
+    height: 100vh;
+
 
     @media only screen and (max-width: 950px) {
       .control {
@@ -111,4 +109,14 @@
       }
     }
   }
+}
+
+.cdk-virtual-scroll-content-wrapper {
+  width: 75%;
+  height: 100vh;
+  display: flex;
+  row-gap: 3rem;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  padding-top: 2rem;
 }
