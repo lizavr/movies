@@ -1,5 +1,5 @@
 <div class="carousel-wrapper">
-  <c-carousel [wrap]="false" [interval]="0">
+  <c-carousel *ngIf="isDataLoaded" [wrap]="false" [interval]="0" >
     <c-carousel-indicators></c-carousel-indicators>
     <c-carousel-inner>
       <c-carousel-item *ngFor="let slide of slides; index as i;">
