@@ -31,9 +31,9 @@ export class CatalogService {
       );
   }
 
-  getThreeMovies(): Observable<CardModel[]> {
+  getPopularMovies(): Observable<CardModel[]> {
     return this.getAllCards().pipe(
-      map((movies: CardModel[]) => movies.splice(0, 5))
+      map((movies: CardModel[]) => movies.splice(0, 10))
     );
   }
 
@@ -48,5 +48,9 @@ export class CatalogService {
           )[0];
       })
     );
+  }
+
+  sortedAccordingChosenYears(){
+
   }
 }

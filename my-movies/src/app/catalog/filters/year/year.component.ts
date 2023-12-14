@@ -26,4 +26,6 @@ export class YearComponent implements OnInit {
   updateEndValue(event: any): void {
     this.currentEnd = event.target.value;
   }
+
+
 }
