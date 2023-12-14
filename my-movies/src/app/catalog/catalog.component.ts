@@ -17,6 +17,8 @@ export class CatalogComponent implements OnInit, OnDestroy {
   isLoading = false;
   cards: CardModel[] = [];
   subscription: Subscription | undefined;
+  panelFilter: CardFilter | undefined;
+  searchFilter: CardFilter | undefined;
 
   constructor(
     private router: Router,
@@ -41,13 +43,32 @@ export class CatalogComponent implements OnInit, OnDestroy {
   }
 
   onFiltersChanged(cardFilter: CardFilter) {
+    this.panelFilter = cardFilter;
+    this.filterMovies();
+  }
+
+  onSearchStringChanged(event: any) {
+    this.searchFilter = (card: CardModel) =>
+      card.title.toLowerCase().includes(event.target.value.toLowerCase());
+    this.filterMovies();
+  }
+
+  filterMovies() {
+    const filters: CardFilter[] = [];
+    if (this.panelFilter) {
+      filters.push(this.panelFilter);
+    }
+    if (this.searchFilter) {
+      filters.push(this.searchFilter);
+    }
+
     this.subscription?.unsubscribe();
     this.subscription = this.catalogService
-      .getAllCards(cardFilter)
+      .getAllCards(filters)
       .subscribe((cards: CardModel[]) => {
         this.cards = cards;
       });
-    }
+  }
 
   ngOnDestroy(): void {
     this.subscription?.unsubscribe();

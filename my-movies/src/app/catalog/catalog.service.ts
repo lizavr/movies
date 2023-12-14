@@ -20,11 +20,11 @@ export class CatalogService {
   }
 
   getAllCards(
-    cardFilter: CardFilter | undefined = undefined
+    cardFilters: CardFilter[] | undefined = undefined
   ): Observable<CardModel[]> {
     return this.cache.pipe(
       map((movies: CardModel[]) =>
-        cardFilter ? movies.filter((movie) => cardFilter(movie)) : movies
+        cardFilters ? movies.filter((movie) => cardFilters.every((cardFilter) => cardFilter(movie))) : movies
       )
     );
   }
