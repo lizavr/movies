@@ -7,5 +7,9 @@ import { CardModel } from './card-model.interface';
   styleUrl: './card.component.scss',
 })
 export class CardComponent {
-  @Input() item:CardModel | undefined;
+  @Input() item: CardModel | undefined;
+
+  getReleaseYear() {
+    return this.item?.release_date.slice(0, 4);
+  }
 }

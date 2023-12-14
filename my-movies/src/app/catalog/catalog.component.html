@@ -8,7 +8,7 @@
   </div>
   <ngx-spinner name="sp5" [fullScreen]="true" type="square-jelly-box" size="large" *ngIf="isLoading"></ngx-spinner>
   <div class="catalog-page" *ngIf="!isLoading">
-    <app-filters class="nav-bar"></app-filters>
+    <app-filters (filtersChanged)="onFiltersChanged($event)" class="nav-bar"></app-filters>
     <cdk-virtual-scroll-viewport itemSize="50" minBufferPx="100" maxBufferPx="250" class="example-viewport catalog-cards">
       <app-card *cdkVirtualFor="let card of cards" [item]="card" (click)="onCardClick(card.id.toString())"></app-card>
     </cdk-virtual-scroll-viewport>

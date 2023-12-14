@@ -5,6 +5,7 @@ import { CatalogService } from './catalog.service';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ViewEncapsulation } from '@angular/core';
+import { CardFilter } from '../core/types';
 
 @Component({
   selector: 'app-catalog',
@@ -38,6 +39,15 @@ export class CatalogComponent implements OnInit, OnDestroy {
   onCardClick(id: string) {
     this.router.navigate(['/catalog', id]);
   }
+
+  onFiltersChanged(cardFilter: CardFilter) {
+    this.subscription?.unsubscribe();
+    this.subscription = this.catalogService
+      .getAllCards(cardFilter)
+      .subscribe((cards: CardModel[]) => {
+        this.cards = cards;
+      });
+    }
 
   ngOnDestroy(): void {
     this.subscription?.unsubscribe();

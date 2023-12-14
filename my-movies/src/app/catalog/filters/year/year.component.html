@@ -3,5 +3,5 @@
   <input type="range" [value]="currentStart" matSliderStartThumb (input)="updateStartValue($event)">
   <input type="range" [value]="currentEnd" matSliderEndThumb (input)="updateEndValue($event)">
 </mat-slider>
-<input type="text" [value]="currentStart">
-<input type="text" [value]="currentEnd">
+<input type="text" [value]="currentStart" (input)="onStartYearInputChanged($event)">
+<input type="text" [value]="currentEnd" (input)="onEndYearInputChanged($event)">
