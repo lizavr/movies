@@ -1,14 +1,9 @@
 <div class="carousel-wrapper">
-  <c-carousel *ngIf="isDataLoaded" [wrap]="false" [interval]="0" >
+  <c-carousel *ngIf="isDataLoaded" [wrap]="false" [interval]="0">
     <c-carousel-indicators></c-carousel-indicators>
     <c-carousel-inner>
-      <c-carousel-item *ngFor="let slide of slides; index as i;">
-        <img
-          [src]="slide.src"
-          alt="{{slide.title}}"
-          class="d-block w-100"
-          loading="lazy"
-        />
+      <c-carousel-item class="slide-hover" *ngFor="let slide of slides; index as i;">
+        <img [src]="slide.src" alt="{{slide.title}}" class="d-block w-100" loading="lazy" (click)="onCardClick(slide.id)" />
         <c-carousel-caption class="d-md-block bgc">
           <h3 class="title">{{slide.title}}</h3>
           <p>{{slide.subtitle}}</p>

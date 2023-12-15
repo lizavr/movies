@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CatalogService } from '../../catalog/catalog.service';
 import { Subscription } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-custom-carousel',
@@ -13,7 +14,7 @@ export class CustomCarouselComponent implements OnInit, OnDestroy {
 
   slides: any[] = [];
 
-  constructor(private catalogService: CatalogService) {}
+  constructor(private catalogService: CatalogService, private router: Router) {}
 
   ngOnInit() {
     this.subscription = this.catalogService
@@ -33,5 +34,12 @@ export class CustomCarouselComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.subscription?.unsubscribe();
+  }
+
+  onCardClick(id: string | undefined) {
+    if (!id) {
+      return;
+    }
+    this.router.navigate(['/catalog', id]);
   }
 }

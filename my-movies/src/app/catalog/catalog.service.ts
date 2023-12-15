@@ -39,7 +39,7 @@ export class CatalogService {
   }
 
   getPopularMovies(): Observable<CardModel[]> {
-    return this.cache.pipe(map((movies: CardModel[]) => movies.splice(0, 10)));
+    return this.cache.pipe(map((movies: CardModel[]) => movies.slice(10, 20)));
   }
 
   getEarliestYear(): Observable<CardModel> {
