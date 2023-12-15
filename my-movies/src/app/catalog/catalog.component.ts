@@ -15,7 +15,7 @@ import { CardFilter } from '../core/types';
 })
 export class CatalogComponent implements OnInit, OnDestroy {
   isLoading = false;
-  cards: CardModel[] = [];
+  cards: CardModel[][] = [];
   subscription: Subscription | undefined;
   panelFilter: CardFilter | undefined;
   searchFilter: CardFilter | undefined;
@@ -32,14 +32,10 @@ export class CatalogComponent implements OnInit, OnDestroy {
     this.subscription = this.catalogService
       .getAllCards()
       .subscribe((cards: CardModel[]) => {
-        this.cards = cards;
+        this.cards = this.createRows(cards);
         this.spinner.hide('sp5');
         this.isLoading = false;
       });
-  }
-
-  onCardClick(id: string) {
-    this.router.navigate(['/catalog', id]);
   }
 
   onFiltersChanged(cardFilter: CardFilter) {
@@ -66,8 +62,18 @@ export class CatalogComponent implements OnInit, OnDestroy {
     this.subscription = this.catalogService
       .getAllCards(filters)
       .subscribe((cards: CardModel[]) => {
-        this.cards = cards;
+        this.cards = this.createRows(cards);
       });
+  }
+
+  createRows(cards: CardModel[]): CardModel[][] {
+    const itemsPerRow = 4;
+    const result: CardModel[][] = [];
+    for (let i = 0; i < cards.length; i += itemsPerRow) {
+      const chunk = cards.slice(i, i + itemsPerRow);
+      result.push(chunk);
+    }
+    return result;
   }
 
   ngOnDestroy(): void {

@@ -10,11 +10,13 @@ import { NgxSpinnerModule } from 'ngx-spinner';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 
 import { FiltersModule } from './filters/filters.module';
+import { CardsRowComponent } from './cards-row/cards-row.component';
 
 @NgModule({
   declarations: [
     CatalogComponent,
     CardComponent,
+    CardsRowComponent,
     MovieCardComponent,
   ],
   imports: [
