@@ -88,3 +88,44 @@ input:not([type="submit"], [type="button"], [type="reset"]) {
 .checkbox-element {
   margin-right: 8px;
 }
+
+//radio-buttons
+
+input~label{
+  cursor: pointer;
+}
+
+.custom-radio {
+  position: relative;
+}
+
+.custom-radio input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.custom-radio input[type="radio"] + label:before {
+  content: "";
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid $main-color;
+  margin-right: 10px;
+}
+
+.custom-radio input[type="radio"]:checked + label:after {
+  content: "";
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background-color: $main-color;
+  position: absolute;
+  left: 0.7%;
+  top: 9%;
+}

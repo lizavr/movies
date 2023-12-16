@@ -43,6 +43,8 @@ export class YearComponent implements OnInit {
   }
 
   onEndYearInputChanged(event: any) {
+    console.log(event);
+
     if (event.target.value.length < 4) {
       return;
     }

@@ -24,7 +24,11 @@ export class CatalogService {
   ): Observable<CardModel[]> {
     return this.cache.pipe(
       map((movies: CardModel[]) =>
-        cardFilters ? movies.filter((movie) => cardFilters.every((cardFilter) => cardFilter(movie))) : movies
+        cardFilters
+          ? movies.filter((movie) =>
+              cardFilters.every((cardFilter) => cardFilter(movie))
+            )
+          : movies
       )
     );
   }
@@ -33,8 +37,7 @@ export class CatalogService {
     return this.cache.pipe(
       map((movies: CardModel[]) =>
         movies.find((movie) => movie.id.toString() === id)
-      ),
-      delay(3000)
+      )
     );
   }
 

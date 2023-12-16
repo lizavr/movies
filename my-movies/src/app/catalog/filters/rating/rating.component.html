@@ -1,0 +1,12 @@
+<p>Rating</p>
+<!-- <div class="radio" *ngFor="let value of values">
+  <label>
+    <input type="radio" name="rating" [(ngModel)]="selectedValue" [value]="value" required>
+    {{ value }}
+  </label>
+</div> -->
+<div class="custom-radio" *ngFor="let value of values">
+  <input type="radio" id="{{value}}" name="rating" [(ngModel)]="selectedValue" [value]="value" required
+    (change)="onRatingChanged()">
+  <label for="{{value}}">{{ value }}</label>
+</div>

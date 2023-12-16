@@ -1,6 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CardModel } from './card/card-model.interface';
-import { Router } from '@angular/router';
 import { CatalogService } from './catalog.service';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -17,11 +16,10 @@ export class CatalogComponent implements OnInit, OnDestroy {
   isLoading = false;
   cards: CardModel[][] = [];
   subscription: Subscription | undefined;
-  panelFilter: CardFilter | undefined;
+  panelFilters: CardFilter[] | undefined;
   searchFilter: CardFilter | undefined;
 
   constructor(
-    private router: Router,
     private catalogService: CatalogService,
     private spinner: NgxSpinnerService
   ) {}
@@ -38,8 +36,8 @@ export class CatalogComponent implements OnInit, OnDestroy {
       });
   }
 
-  onFiltersChanged(cardFilter: CardFilter) {
-    this.panelFilter = cardFilter;
+  onFiltersChanged(cardFilters: CardFilter[]) {
+    this.panelFilters = cardFilters;
     this.filterMovies();
   }
 
@@ -51,8 +49,8 @@ export class CatalogComponent implements OnInit, OnDestroy {
 
   filterMovies() {
     const filters: CardFilter[] = [];
-    if (this.panelFilter) {
-      filters.push(this.panelFilter);
+    if (this.panelFilters) {
+      filters.push(...this.panelFilters);
     }
     if (this.searchFilter) {
       filters.push(this.searchFilter);

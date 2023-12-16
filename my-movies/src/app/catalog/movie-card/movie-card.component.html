@@ -1,16 +1,21 @@
-<div class="wrapper movie-card">
+<ngx-spinner name="sp5" [fullScreen]="true" type="square-jelly-box" size="large" *ngIf="isLoading"></ngx-spinner>
+<div class="wrapper movie-card" *ngIf="!isLoading">
   <as-split direction="horizontal" gutterSize="5">
     <as-split-area [size]="60" [minSize]="20" [maxSize]="70">
       <div class="movie-card-left">
-        <p class="movie-card-left-name">{{ card?.title ?? 'Waiting...' }}</p>
-        <img class="movie-card-left-img"
+        <!-- <p class="movie-card-left-name">{{ card?.title ?? 'Waiting...' }}</p> -->
+        <p class="movie-card-left-name">{{ card?.title }}</p>
+        <!-- <img class="movie-card-left-img"
           [src]="card?.poster_path ? 'https://image.tmdb.org/t/p/w1280' + card?.backdrop_path : '../../assets/img/waiting.gif'"
+          (click)="toggleFullScreen()" #imageElement/> -->
+          <img class="movie-card-left-img"
+          [src]="'https://image.tmdb.org/t/p/w1280' + card?.backdrop_path"
           (click)="toggleFullScreen()" #imageElement/>
         <button>Watch</button>
       </div>
     </as-split-area>
     <as-split-area [size]="40">
-      <div class="movie-card-right" *ngIf="!isLoading">
+      <div class="movie-card-right">
         <h2>{{card?.title}}</h2>
         <p class="rating"><span>Rating:</span> {{ card?.vote_average}}</p>
         <p class="movie-card-right-description">{{ card?.overview}}</p>

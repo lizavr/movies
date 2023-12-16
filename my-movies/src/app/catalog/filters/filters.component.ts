@@ -7,9 +7,28 @@ import { CardFilter } from '../../core/types';
   styleUrl: './filters.component.scss',
 })
 export class FiltersComponent {
-  @Output() filtersChanged = new EventEmitter<CardFilter>();
+  @Output() filtersChanged = new EventEmitter<CardFilter[]>();
+  yearFilter: CardFilter | undefined;
+  ratingFilter: CardFilter | undefined;
 
-  onYearChanged(event: CardFilter) {
-    this.filtersChanged.emit(event);
+  onYearChanged(eventYear: CardFilter) {
+    this.yearFilter = eventYear;
+    this.onAllFiltersChanged();
+  }
+
+  onRatingChanged(eventRating: CardFilter) {
+    this.ratingFilter = eventRating;
+    this.onAllFiltersChanged();
+  }
+
+  onAllFiltersChanged() {
+    const filtersArray = [];
+    if (this.yearFilter) {
+      filtersArray.push(this.yearFilter);
+    }
+    if (this.ratingFilter) {
+      filtersArray.push(this.ratingFilter);
+    }
+    this.filtersChanged.emit(filtersArray);
   }
 }
