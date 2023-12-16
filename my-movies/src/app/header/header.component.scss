@@ -48,6 +48,10 @@ a,
   @include profileIcon("profile");
 }
 
+.cart_btn {
+  @include profileIcon("cart");
+}
+
 //burger-menu
 
 .menu-block {

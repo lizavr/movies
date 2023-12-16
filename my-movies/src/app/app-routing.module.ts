@@ -17,6 +17,13 @@ const routes: Routes = [
         (m) => m.MyCollectionModule
       ),
   },
+  {
+    path: 'cart',
+    loadChildren: () =>
+      import('./cart/cart.module').then(
+        (m) => m.CartModule
+      ),
+  },
   { path: 'not-found', component: NotFoundComponent },
   { path: '**', redirectTo: 'not-found' },
 ];

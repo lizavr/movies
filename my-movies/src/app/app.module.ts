@@ -13,6 +13,7 @@ import { HomeModule } from './home/home.module';
 
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { CatalogModule } from './catalog/catalog.module';
+import { CartModule } from './cart/cart.module';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { CatalogModule } from './catalog/catalog.module';
     AuthModule,
     CatalogModule,
     MyCollectionModule,
+    CartModule,
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
