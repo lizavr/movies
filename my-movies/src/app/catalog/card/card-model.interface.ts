@@ -13,4 +13,5 @@ export interface CardModel {
   video: boolean;
   vote_average: number;
   vote_count: number;
+  price: number;
 }

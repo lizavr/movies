@@ -71,20 +71,18 @@ export class RegistrationComponent implements OnInit {
 
     authObs = this.authService.signup(email, password, userName);
 
-    authObs.subscribe(
-      (resData) => {
-        console.log(resData);
+    authObs.subscribe({
+      next: () => {
         this.isLoading = false;
         this.spinner.hide('sp5');
         this.router.navigate(['/collection']);
       },
-      (errorMessage) => {
-        console.log(errorMessage);
+      error: (errorMessage) => {
         this.error = errorMessage;
         this.isLoading = false;
         this.spinner.hide('sp5');
-      }
-    );
+      },
+    });
 
     form.reset();
   }

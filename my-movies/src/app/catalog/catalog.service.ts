@@ -2,8 +2,9 @@ import { Injectable } from '@angular/core';
 import { CardModel } from './card/card-model.interface';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/internal/Observable';
-import { delay, map, shareReplay } from 'rxjs/operators';
+import { map, shareReplay, switchMap } from 'rxjs/operators';
 import { CardFilter } from '../core/types';
+// import { ObservableInput } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -12,6 +13,7 @@ export class CatalogService {
   cache: Observable<CardModel[]>;
 
   constructor(private http: HttpClient) {
+    // this.forChangeBD().subscribe();
     this.cache = this.http
       .get<CardModel[]>(
         'https://movies-2a4fe-default-rtdb.europe-west1.firebasedatabase.app/movies/popular.json'
@@ -57,4 +59,33 @@ export class CatalogService {
       })
     );
   }
+
+  // functionForSendRequestsAndChangeBD(): number {
+  //   return parseFloat((Math.random() * (10 - 1) + 1).toFixed(2));
+  // }
+
+  // forChangeBD() {
+  //   console.log('1');
+  //   return this.http
+  //     .get<CardModel[]>(
+  //       'https://movies-2a4fe-default-rtdb.europe-west1.firebasedatabase.app/movies/popular.json'
+  //     )
+  //     .pipe(
+  //       map((cards) => {
+  //         console.log('g');
+  //         return cards.map((card) => ({
+  //           ...card,
+  //           price: this.functionForSendRequestsAndChangeBD(),
+  //         }));
+  //       }),
+  //       switchMap((modifiedCards: CardModel[]): ObservableInput<any> => {
+  //         console.log('g');
+  //         console.log(modifiedCards);
+  //         return this.http.put(
+  //           'https://movies-2a4fe-default-rtdb.europe-west1.firebasedatabase.app/movies/popular.json?key=AIzaSyA010gvs00_nYgB3h-g9M7lkyKLqMI7mHY',
+  //           modifiedCards
+  //         );
+  //       })
+  //     );
+  // }
 }

@@ -53,11 +53,9 @@ export class AuthService implements OnInit {
       )
       .pipe(
         switchMap((response) => {
-          // Now update the user profile with the userName
           return this.updateUserName(response, userName);
         }),
         catchError((error) => {
-          // Handle any errors here
           return throwError(() => new Error(error));
         })
       )
