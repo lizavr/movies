@@ -11,6 +11,7 @@ import { ActivatedRoute } from '@angular/router';
 import { CatalogService } from '../catalog.service';
 import { Subscription } from 'rxjs';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { CartService } from '../../cart/cart.service';
 
 @Component({
   selector: 'app-movie-card',
@@ -27,7 +28,8 @@ export class MovieCardComponent implements OnInit, OnDestroy {
   constructor(
     private route: ActivatedRoute,
     private catalogService: CatalogService,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private cart: CartService
   ) {}
 
   ngOnInit(): void {
@@ -46,6 +48,13 @@ export class MovieCardComponent implements OnInit, OnDestroy {
 
   toggleFullScreen(): void {
     this.imageElement?.nativeElement.classList.toggle('full-screen');
+  }
+
+  addToCart(card: CardModel | undefined) {
+    if(!card){
+      return;
+    }
+    this.cart.add(card);
   }
 
   ngOnDestroy(): void {

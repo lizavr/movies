@@ -1,8 +1,17 @@
-<ngx-spinner name="sp5"  type="square-jelly-box" size="large" *ngIf="isLoading"></ngx-spinner>
-<table *ngIf="!isLoading" >
-  <tr *ngFor="let item of array" (click)="goToMovieCard(item.id)">
-    <td><app-card [item]="item"></app-card></td>
-    <td class="price">{{item.price}} $</td>
-    <td class="btns"><button>Buy</button><button>Remove</button></td>
-  </tr>
-</table>
+<div class="cart-component" *ngIf="!isLoading">
+  <table>
+    <tr *ngFor="let item of array" (click)="goToMovieCard(item.id)">
+      <td><app-card [item]="item"></app-card></td>
+      <td class="price">{{item.price}} $</td>
+      <td><button (click)="remove(item.id, $event)">Remove</button></td>
+    </tr>
+  </table>
+
+  <div class="total-price">
+    <h2>Total price:<span class="total-price-final">{{totalPrice()}}$</span></h2>
+    <ul *ngFor="let item of array">
+      <li>{{item.title}}</li>
+    </ul>
+    <button class="pay-btn">Pay</button>
+  </div>
+</div>

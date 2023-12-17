@@ -8,10 +8,9 @@
         <!-- <img class="movie-card-left-img"
           [src]="card?.poster_path ? 'https://image.tmdb.org/t/p/w1280' + card?.backdrop_path : '../../assets/img/waiting.gif'"
           (click)="toggleFullScreen()" #imageElement/> -->
-          <img class="movie-card-left-img"
-          [src]="'https://image.tmdb.org/t/p/w1280' + card?.backdrop_path"
-          (click)="toggleFullScreen()" #imageElement/>
-        <button>Buy</button>
+        <img class="movie-card-left-img" [src]="'https://image.tmdb.org/t/p/w1280' + card?.backdrop_path"
+          (click)="toggleFullScreen()" #imageElement />
+        <button (click)="addToCart(card)">Buy</button>
       </div>
     </as-split-area>
     <as-split-area [size]="40">

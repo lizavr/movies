@@ -1,5 +1,9 @@
 @import "../../styles/variables";
 
+.cart-component {
+  display: flex;
+}
+
 table {
   width: 50vw;
   margin: 5rem auto 5rem 0;
@@ -35,12 +39,30 @@ tr {
   font-size: 2rem;
 }
 
-.btns {
-  display: flex;
-  flex-direction: column;
-  gap: 3rem;
-}
-
 button {
   padding: 20px 50px;
+}
+
+h2,
+.total-price {
+  font-size: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.total-price {
+  background-color: $menu-background-color;
+  border-radius: 10px;
+  padding: 3rem;
+  margin: 10rem auto auto;
+
+  &-final {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-left: 2rem;
+  }
+}
+
+.pay-btn {
+  display: block;
+  margin: 3rem 1rem 0 auto;
 }

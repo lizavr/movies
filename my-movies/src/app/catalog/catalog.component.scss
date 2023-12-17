@@ -22,7 +22,6 @@
       }
     }
 
-    .cross,
     .loupe {
       height: 30px;
       width: 30px;
@@ -30,13 +29,6 @@
       filter: opacity(30%);
       background-color: inherit;
     }
-
-    // .cross {
-    //   right: 50px;
-    //   top: -5px;
-    //   font-size: 30px;
-    //   color: $text-color;
-    // }
 
     .loupe {
       background-image: url("../../assets/icons/search.png");
@@ -46,10 +38,6 @@
       top: 10%;
     }
   }
-}
-
-.search:placeholder-shown ~ .cross {
-  display: none;
 }
 
 .catalog-page {
