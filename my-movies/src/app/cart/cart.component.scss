@@ -1,0 +1,46 @@
+@import "../../styles/variables";
+
+table {
+  width: 50vw;
+  margin: 5rem auto 5rem 0;
+}
+th,
+td {
+  width: auto;
+}
+th {
+  display: block;
+  margin-bottom: 2.5rem;
+}
+tr {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+  align-items: center;
+  padding: 1rem;
+  border-radius: 10px;
+  transition: transform 0.3s ease;
+
+  &:hover {
+    transform: scale(1.05);
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    box-shadow: 0px 0px 20px 5px $hover-color;
+    -webkit-box-shadow: 0px 0px 20px 5px $hover-color;
+    -moz-box-shadow: 0px 0px 20px 5px $hover-color;
+  }
+}
+
+.price {
+  font-size: 2rem;
+}
+
+.btns {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+}
+
+button {
+  padding: 20px 50px;
+}

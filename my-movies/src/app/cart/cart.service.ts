@@ -13,7 +13,7 @@ export class CartService {
 
   getArrOfMovies(): Observable<CardModel[]> {
     return (this.arrOfMovies = this.catalog.cache.pipe(
-      map((movies: CardModel[]) => movies.slice(0, 5))
+      map((movies: CardModel[]) => movies.slice(0, 10))
     ));
   }
 }

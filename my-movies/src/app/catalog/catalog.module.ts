@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CatalogComponent } from './catalog.component';
 import { CatalogRoutingModule } from './catalog-routing.module';
-import { CardComponent } from './card/card.component';
 import { CommonModule } from '@angular/common';
 import { AngularSplitModule } from 'angular-split';
 import { MovieCardComponent } from './movie-card/movie-card.component';
@@ -11,14 +10,10 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
 
 import { FiltersModule } from './filters/filters.module';
 import { CardsRowComponent } from './cards-row/cards-row.component';
+import { SharedModule } from '../../shared/shared.module';
 
 @NgModule({
-  declarations: [
-    CatalogComponent,
-    CardComponent,
-    CardsRowComponent,
-    MovieCardComponent,
-  ],
+  declarations: [CatalogComponent, CardsRowComponent, MovieCardComponent],
   imports: [
     CommonModule,
     CatalogRoutingModule,
@@ -27,6 +22,7 @@ import { CardsRowComponent } from './cards-row/cards-row.component';
     NgxSpinnerModule,
     ScrollingModule,
     FiltersModule,
+    SharedModule,
   ],
 })
 export class CatalogModule {}
