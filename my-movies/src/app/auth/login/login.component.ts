@@ -13,12 +13,18 @@ import { NgxSpinnerService } from 'ngx-spinner';
 export class LoginComponent {
   isLoading = false;
   error: string | null = null;
+  password: string = '';
+  showPassword: boolean = false;
 
   constructor(
     private authService: AuthService,
     private router: Router,
     private spinner: NgxSpinnerService
   ) {}
+
+  togglePasswordVisibility() {
+    this.showPassword = !this.showPassword;
+  }
 
   onSubmit(form: NgForm) {
     if (!form.valid) {

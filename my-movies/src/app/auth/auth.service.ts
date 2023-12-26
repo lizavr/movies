@@ -8,6 +8,7 @@ import { User } from './user.model';
 export interface AuthResponseData {
   kind: string;
   idToken: string;
+  displayName: string;
   email: string;
   refreshToken: string;
   expiresIn: string;
@@ -30,6 +31,7 @@ export class AuthService implements OnInit {
     if (storedData) {
       const loadedUser = new User(
         storedData.email,
+        storedData.displayName,
         storedData.id,
         storedData._token,
         new Date(storedData._tokenExpirationDate)
@@ -64,6 +66,7 @@ export class AuthService implements OnInit {
         tap((resData) => {
           this.handleAuthentication(
             resData.email,
+            resData.displayName,
             resData.localId,
             resData.idToken,
             +resData.expiresIn
@@ -87,6 +90,7 @@ export class AuthService implements OnInit {
         tap((resData) => {
           this.handleAuthentication(
             resData.email,
+            resData.displayName,
             resData.localId,
             resData.idToken,
             +resData.expiresIn
@@ -100,7 +104,7 @@ export class AuthService implements OnInit {
     userName: string
   ): Observable<AuthResponseData> {
     return this.http
-      .post(
+      .post<AuthResponseData>(
         'https://www.googleapis.com/identitytoolkit/v3/relyingparty/setAccountInfo?key=AIzaSyA010gvs00_nYgB3h-g9M7lkyKLqMI7mHY',
         {
           idToken: responseData.idToken,
@@ -108,26 +112,32 @@ export class AuthService implements OnInit {
           returnSecureToken: true,
         }
       )
-      .pipe(map(() => responseData));
+      .pipe(
+        map((nameUpdateResponse) => {
+          responseData.displayName = nameUpdateResponse.displayName;
+          return responseData;
+        })
+      );
   }
 
   private handleAuthentication(
     email: string,
+    displayName: string,
     userId: string,
     token: string,
     expiresIn: number
   ) {
     const expirationDate = new Date(new Date().getTime() + expiresIn * 1000);
-    const user = new User(email, userId, token, expirationDate);
+    const user = new User(email, displayName, userId, token, expirationDate);
     this.user.next(user);
 
     const userData = {
       email: email,
+      displayName: displayName,
       id: userId,
       _token: token,
       _tokenExpirationDate: expirationDate.toISOString(),
     };
-
     localStorage.setItem('userData', JSON.stringify(userData));
   }
 

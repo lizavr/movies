@@ -10,9 +10,10 @@
     </div>
     <div class="auth-link">
       <div class="password-block">
-        <input type="password" placeholder="Password" ngModel name="password" #password="ngModel" required password
+        <input placeholder="Password" type="{{showPassword ? 'text' : 'password'}}" ngModel name="password" #password="ngModel" required password
           minlength="6">
-        <span class="eye"></span>
+        <span class="eye" [ngClass]="{'open': showPassword}"
+        (click)="togglePasswordVisibility()"></span>
       </div>
       <div *ngIf="password.invalid && password.touched">
         Sorry, it's wrong. Length should be more 6.

@@ -2,9 +2,11 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { HomeModule } from './home/home.module';
+import { ProfileComponent } from './profile/profile.component';
 
 const routes: Routes = [
   { path: '', component: HomeModule },
+  { path: 'profile', component: ProfileComponent },
   {
     path: 'catalog',
     loadChildren: () =>
@@ -19,10 +21,7 @@ const routes: Routes = [
   },
   {
     path: 'cart',
-    loadChildren: () =>
-      import('./cart/cart.module').then(
-        (m) => m.CartModule
-      ),
+    loadChildren: () => import('./cart/cart.module').then((m) => m.CartModule),
   },
   { path: 'not-found', component: NotFoundComponent },
   { path: '**', redirectTo: 'not-found' },

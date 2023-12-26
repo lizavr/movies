@@ -62,7 +62,7 @@ export class RegistrationComponent implements OnInit {
     }
     const email = form.value.email;
     const password = form.value.password;
-    const userName = form.value.userName;
+    const userName = form.value.username;
 
     let authObs: Observable<AuthResponseData>;
 
