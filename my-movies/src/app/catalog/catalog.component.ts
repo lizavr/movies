@@ -5,6 +5,8 @@ import { Subscription } from 'rxjs/internal/Subscription';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ViewEncapsulation } from '@angular/core';
 import { CardFilter } from '../core/types';
+import { CartService } from '../cart/cart.service';
+import { MyCollectionService } from '../my-collection/my-collection.service';
 
 @Component({
   selector: 'app-catalog',
@@ -15,24 +17,39 @@ import { CardFilter } from '../core/types';
 export class CatalogComponent implements OnInit, OnDestroy {
   isLoading = false;
   cards: CardModel[][] = [];
-  subscription: Subscription | undefined;
+  cartItems: CardModel[] = [];
+  myCollectionItems: CardModel[] = [];
+  catalogServiceSubscription: Subscription | undefined;
+  cartServiceSubscription: Subscription | undefined;
+  myCollectionServiceSubscription: Subscription | undefined;
   panelFilters: CardFilter[] | undefined;
   searchFilter: CardFilter | undefined;
 
   constructor(
     private catalogService: CatalogService,
+    private cartService: CartService,
+    private myCollectionService: MyCollectionService,
     private spinner: NgxSpinnerService
   ) {}
 
   ngOnInit() {
     this.isLoading = true;
     this.spinner.show('sp5');
-    this.subscription = this.catalogService
-      .getAllCards()
-      .subscribe((cards: CardModel[]) => {
-        this.cards = this.createRows(cards);
+    this.cartServiceSubscription =
+      this.catalogService.getAllCards().subscribe((cards: CardModel[]) => {
+        this.updateCards(cards);
         this.spinner.hide('sp5');
         this.isLoading = false;
+      });
+    this.cartServiceSubscription =
+      this.cartService.movies.subscribe((cards: CardModel[]) => {
+        this.cartItems = cards;
+        this.updateIsInCart();
+      });
+      this.myCollectionServiceSubscription =
+      this.myCollectionService.movies.subscribe((cards: CardModel[]) => {
+        this.myCollectionItems = cards;
+        this.updateCollectionItems();
       });
   }
 
@@ -56,12 +73,30 @@ export class CatalogComponent implements OnInit, OnDestroy {
       filters.push(this.searchFilter);
     }
 
-    this.subscription?.unsubscribe();
-    this.subscription = this.catalogService
+    this.catalogServiceSubscription?.unsubscribe();
+    this.cartServiceSubscription = this.catalogService
       .getAllCards(filters)
       .subscribe((cards: CardModel[]) => {
-        this.cards = this.createRows(cards);
+        this.updateCards(cards);
       });
+  }
+
+  updateCards(cards: CardModel[] ) {
+    this.cards = this.createRows(cards);
+    this.updateIsInCart();
+    this.updateCollectionItems();
+  }
+
+  updateIsInCart() {
+    this.cards.flat().forEach((item) => {
+        item.isInCart = this.cartItems.some((cartItem) => item.id === cartItem.id);
+    });
+  }
+
+  updateCollectionItems() {
+    this.cards.flat().forEach((item) => {
+        item.isInCollection = this.myCollectionItems.some((collectionItem) => item.id === collectionItem.id);
+    });
   }
 
   createRows(cards: CardModel[]): CardModel[][] {
@@ -75,6 +110,8 @@ export class CatalogComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.subscription?.unsubscribe();
+    this.catalogServiceSubscription?.unsubscribe();
+    this.cartServiceSubscription?.unsubscribe();
+    this.myCollectionServiceSubscription?.unsubscribe();
   }
 }

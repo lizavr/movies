@@ -2,6 +2,8 @@
   <img class="card-img" src="https://image.tmdb.org/t/p/w300{{ item?.poster_path }}"/>
   <div class="card-tools">
     <p class="card-name">{{item?.title}} ({{getReleaseYear()}})</p>
-    <button (click)="addToCart($event)">Buy</button>
+    <p *ngIf="item?.isInCollection">✔</p>
+    <button (click)="addToCart($event)" *ngIf="!item?.isInCollection && !item?.isInCart">Buy</button>
+    <button (click)="removeFromCart($event)" *ngIf="!item?.isInCollection && item?.isInCart">Remove</button>
   </div>
 </div>

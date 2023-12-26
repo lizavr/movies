@@ -10,7 +10,9 @@
           (click)="toggleFullScreen()" #imageElement/> -->
         <img class="movie-card-left-img" [src]="'https://image.tmdb.org/t/p/w1280' + card?.backdrop_path"
           (click)="toggleFullScreen()" #imageElement />
-        <button (click)="addToCart(card)">Buy</button>
+        <p *ngIf="card?.isInCollection">✔</p>
+        <button (click)="addToCart(card)" *ngIf="!card?.isInCollection && !card?.isInCart">Buy</button>
+        <button (click)="removeFromCart(card)" *ngIf="!card?.isInCollection && card?.isInCart">Remove</button>
       </div>
     </as-split-area>
     <as-split-area [size]="40">

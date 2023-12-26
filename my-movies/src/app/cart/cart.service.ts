@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
-import { CatalogService } from '../catalog/catalog.service';
 import { CardModel } from '../catalog/card/card-model.interface';
-import { map, tap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs/internal/Observable';
-import { BehaviorSubject, Subject, Subscription, of } from 'rxjs';
+import { BehaviorSubject, of } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { User } from '../auth/user.model';
 import { AuthService } from '../auth/auth.service';
+import { MyCollectionService } from '../my-collection/my-collection.service';
 
 @Injectable({
   providedIn: 'root',
@@ -16,30 +16,27 @@ export class CartService {
   movies: BehaviorSubject<CardModel[]> = new BehaviorSubject<CardModel[]>([]);
   currentUser: User | null = null;
 
-  //moviesObservable: Subject<CardModel[]>;
-
-  constructor(private http: HttpClient, private authService: AuthService) {
-    //this.moviesObservable = new Subject<CardModel[]>();
+  constructor(
+    private http: HttpClient,
+    private authService: AuthService,
+    private myCollectionService: MyCollectionService
+  ) {
     this.authService.user.subscribe((user) => {
-      console.log('user changed');
-      console.log(user);
       this.currentUser = user;
       this.fetchMoviesForCurrentUser();
     });
   }
 
   add(card: CardModel) {
-    console.log('add');
     if (!this.currentUser) {
       return;
     }
 
-    console.log(this.movies.value);
     if (this.movies.value.some((item) => item.id === card.id)) {
       return;
     }
 
-    const moviesToUpload = [ ...this.movies.value, card ];
+    const moviesToUpload = [...this.movies.value, card];
 
     this.http
       .put(
@@ -65,7 +62,7 @@ export class CartService {
     this.http
       .put(
         `${environment.apiUrl}/users/${this.currentUser.id}/cart.json?key=${environment.apiKey}`,
-        moviesToRemain.length ? moviesToRemain : 'empty'
+        moviesToRemain.length ? moviesToRemain : JSON.stringify('empty')
       )
       .subscribe({
         next: () => {
@@ -73,6 +70,26 @@ export class CartService {
         },
         error: (error) => {
           console.error('Error removing movie:', error);
+        },
+      });
+  }
+
+  clear() {
+    if (!this.currentUser) {
+      return;
+    }
+
+    this.http
+      .put(
+        `${environment.apiUrl}/users/${this.currentUser.id}/cart.json?key=${environment.apiKey}`,
+        JSON.stringify('empty')
+      )
+      .subscribe({
+        next: () => {
+          this.fetchMoviesForCurrentUser();
+        },
+        error: (error) => {
+          console.error('Error clearing movies:', error);
         },
       });
   }
@@ -108,11 +125,8 @@ export class CartService {
     });
   }
 
-  // getArrOfMovies(): void {
-  //   this.catalog.cache.pipe(
-  //     map((movies: CardModel[]) =>
-  //       movies.slice(0, 10).forEach((item) => this.movies.push(item))
-  //     )
-  //   );
-  // }
+  pay() {
+    this.myCollectionService.addMovies(this.movies.value);
+    this.clear();
+  }
 }

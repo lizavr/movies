@@ -11,6 +11,11 @@
   }
 }
 
+.cart-btns {
+  display: flex;
+  flex-direction: row;
+}
+
 table {
   width: 50vw;
   margin: 5rem auto 5rem 0;

@@ -31,4 +31,12 @@ export class CardComponent {
     }
     this.cart.add(this.item);
   }
+
+  removeFromCart(event: Event) {
+    event.stopPropagation();
+    if (!this.item) {
+      return;
+    }
+    this.cart.remove(this.item.id);
+  }
 }

@@ -14,4 +14,6 @@ export interface CardModel {
   vote_average: number;
   vote_count: number;
   price: number;
+  isInCart: boolean;
+  isInCollection: boolean;
 }

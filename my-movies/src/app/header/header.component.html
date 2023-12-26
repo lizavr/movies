@@ -25,7 +25,7 @@
       </a>
 
       <a routerLink="/cart" routerLinkActive="active" class="cart" *ngIf="isAuthenticated">
-        <label class="cart_btn"></label>cart
+        <label class="cart_btn"></label>cart<span *ngIf="cartItemsCount > 0"> ({{cartItemsCount}})</span>
       </a>
     </div>
     <a class="navigation__icon menu__icon" (click)="isOpen = !isOpen" [class.open]="isOpen"></a>

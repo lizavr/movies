@@ -26,7 +26,6 @@ export class AuthService {
     if (storedDataJson !== null && storedDataJson !== undefined) {
       storedData = JSON.parse(storedDataJson);
     }
-
     let currentUser;
     if (storedData) {
       currentUser = new User(

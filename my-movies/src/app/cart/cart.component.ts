@@ -41,6 +41,14 @@ export class CartComponent implements OnInit, OnDestroy {
     this.cart.remove(id);
   }
 
+  onClearClick() {
+    this.cart.clear();
+  }
+
+  onPayClick() {
+    this.cart.pay();
+  }
+
   ngOnDestroy(): void {
     this.subscription?.unsubscribe();
   }

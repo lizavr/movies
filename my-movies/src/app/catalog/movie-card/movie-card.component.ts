@@ -22,7 +22,8 @@ export class MovieCardComponent implements OnInit, OnDestroy {
   @ViewChild('imageElement') imageElement: ElementRef | undefined;
   // @Input() item: CardModel | undefined;
   card: CardModel | undefined;
-  subscription: Subscription | undefined;
+  catalogSubscription: Subscription | undefined;
+  cartSubscription: Subscription | undefined;
   isLoading = false;
 
   constructor(
@@ -37,13 +38,20 @@ export class MovieCardComponent implements OnInit, OnDestroy {
     this.spinner.show('sp5');
     const cardId = this.route.snapshot.paramMap.get('id');
 
-    this.subscription = this.catalogService
+    this.catalogSubscription = this.catalogService
       .getCardById(cardId!)
       .subscribe((movie) => {
         this.card = movie;
         this.spinner.hide('sp5');
         this.isLoading = false;
       });
+    this.cartSubscription = this.cart.movies.subscribe((cards: CardModel[]) => {
+      if (this.card) {
+        this.card.isInCart = cards.some(
+          (cartItem) => cartItem.id === this.card?.id
+        );
+      }
+    });
   }
 
   toggleFullScreen(): void {
@@ -51,13 +59,21 @@ export class MovieCardComponent implements OnInit, OnDestroy {
   }
 
   addToCart(card: CardModel | undefined) {
-    if(!card){
+    if (!card) {
       return;
     }
     this.cart.add(card);
   }
 
+  removeFromCart(card: CardModel | undefined) {
+    if (!card) {
+      return;
+    }
+    this.cart.remove(card.id);
+  }
+
   ngOnDestroy(): void {
-    this.subscription?.unsubscribe();
+    this.catalogSubscription?.unsubscribe();
+    this.cartSubscription?.unsubscribe();
   }
 }
