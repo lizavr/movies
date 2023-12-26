@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { CartService } from './cart.service';
 import { Subscription } from 'rxjs';
 import { CardModel } from '../catalog/card/card-model.interface';
@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
   templateUrl: './cart.component.html',
   styleUrl: './cart.component.scss',
 })
-export class CartComponent implements OnInit {
+export class CartComponent implements OnInit, OnDestroy {
   subscription: Subscription | undefined;
   array: CardModel[] = [];
   isLoading = false;
@@ -17,7 +17,7 @@ export class CartComponent implements OnInit {
   constructor(private cart: CartService, private router: Router) {}
 
   ngOnInit(): void {
-    this.array = this.cart.get();
+    this.subscription = this.cart.movies.subscribe((updatedMovies) => this.array = updatedMovies);
   }
 
   goToMovieCard(id: number | undefined) {
@@ -30,7 +30,7 @@ export class CartComponent implements OnInit {
   totalPrice() {
     return this.array.reduce((acc, item) => acc + item.price, 0).toFixed(2);
   }
-  //remove when observ add
+
   remove(id: number | undefined, event: MouseEvent) {
     event.stopPropagation();
 
@@ -39,6 +39,9 @@ export class CartComponent implements OnInit {
     }
 
     this.cart.remove(id);
-    this.array = this.cart.get();
+  }
+
+  ngOnDestroy(): void {
+    this.subscription?.unsubscribe();
   }
 }

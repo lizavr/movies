@@ -2,8 +2,9 @@ import { Injectable } from '@angular/core';
 import { CardModel } from './card/card-model.interface';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/internal/Observable';
-import { map, shareReplay, switchMap } from 'rxjs/operators';
+import { map, shareReplay } from 'rxjs/operators';
 import { CardFilter } from '../core/types';
+import { environment } from '../../environments/environment';
 // import { ObservableInput } from 'rxjs';
 
 @Injectable({
@@ -16,7 +17,7 @@ export class CatalogService {
     // this.forChangeBD().subscribe();
     this.cache = this.http
       .get<CardModel[]>(
-        'https://movies-2a4fe-default-rtdb.europe-west1.firebasedatabase.app/movies/popular.json'
+        `${environment.apiUrl}/movies/popular.json`
       )
       .pipe(shareReplay(1));
   }

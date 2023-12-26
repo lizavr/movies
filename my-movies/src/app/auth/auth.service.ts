@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { catchError, map, switchMap, tap } from 'rxjs/operators';
-import { throwError, BehaviorSubject, Observable } from 'rxjs';
+import { throwError, BehaviorSubject, Observable, forkJoin } from 'rxjs';
 import { User } from './user.model';
+import { environment } from '../../environments/environment';
 
 export interface AuthResponseData {
   kind: string;
@@ -17,17 +18,18 @@ export interface AuthResponseData {
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  storedDataJSON: string | undefined;
   user = new BehaviorSubject<User | null>(null);
 
   constructor(private http: HttpClient) {
     let storedData;
-    if (this.storedDataJSON !== null && this.storedDataJSON !== undefined) {
-      storedData = JSON.parse(this.storedDataJSON);
+    let storedDataJson = localStorage.getItem('userData');
+    if (storedDataJson !== null && storedDataJson !== undefined) {
+      storedData = JSON.parse(storedDataJson);
     }
 
+    let currentUser;
     if (storedData) {
-      const loadedUser = new User(
+      currentUser = new User(
         storedData.email,
         storedData.displayName,
         storedData.id,
@@ -35,8 +37,8 @@ export class AuthService {
         new Date(storedData._tokenExpirationDate)
       );
 
-      if (loadedUser.token) {
-        this.user.next(loadedUser);
+      if (currentUser.token) {
+        this.user.next(currentUser);
       }
     }
   }
@@ -44,7 +46,7 @@ export class AuthService {
   signup(email: string, password: string, userName: string) {
     return this.http
       .post<AuthResponseData>(
-        'https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser?key=AIzaSyA010gvs00_nYgB3h-g9M7lkyKLqMI7mHY',
+        `${environment.authApiUrl}/signupNewUser?key=${environment.apiKey}`,
         {
           email: email,
           password: password,
@@ -57,10 +59,13 @@ export class AuthService {
         }),
         catchError((error) => {
           return throwError(() => new Error(error));
-        })
-      )
-      .pipe(
-        catchError(this.handleError),
+        }),
+        switchMap((resData) => {
+          return forkJoin({
+            cart: this.createEmptyCart(resData),
+            collection: this.createEmptyCollection(resData),
+          }).pipe(map(() => resData));
+        }),
         tap((resData) => {
           this.handleAuthentication(
             resData.email,
@@ -69,14 +74,15 @@ export class AuthService {
             resData.idToken,
             +resData.expiresIn
           );
-        })
+        }),
+        catchError(this.handleError)
       );
   }
 
   login(email: string, password: string) {
     return this.http
       .post<AuthResponseData>(
-        'https://www.googleapis.com/identitytoolkit/v3/relyingparty/verifyPassword?key=AIzaSyA010gvs00_nYgB3h-g9M7lkyKLqMI7mHY',
+        `${environment.authApiUrl}/verifyPassword?key=${environment.apiKey}`,
         {
           email: email,
           password: password,
@@ -103,7 +109,7 @@ export class AuthService {
   ): Observable<AuthResponseData> {
     return this.http
       .post<AuthResponseData>(
-        'https://www.googleapis.com/identitytoolkit/v3/relyingparty/setAccountInfo?key=AIzaSyA010gvs00_nYgB3h-g9M7lkyKLqMI7mHY',
+        `${environment.authApiUrl}/setAccountInfo?key=${environment.apiKey}`,
         {
           idToken: responseData.idToken,
           displayName: userName,
@@ -161,5 +167,19 @@ export class AuthService {
         break;
     }
     return throwError(() => new Error(errorMessage));
+  }
+
+  createEmptyCart(authResponseData: AuthResponseData): Observable<any> {
+    return this.http.put(
+      `${environment.apiUrl}/users/${authResponseData.localId}/cart.json?key=${environment.apiKey}`,
+      JSON.stringify('empty')
+    );
+  }
+
+  createEmptyCollection(authResponseData: AuthResponseData) {
+    return this.http.put(
+      `${environment.apiUrl}/users/${authResponseData.localId}/collection.json?key=${environment.apiKey}`,
+      JSON.stringify('empty')
+    );
   }
 }
