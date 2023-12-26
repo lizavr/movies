@@ -20,7 +20,7 @@ import { CartService } from '../../cart/cart.service';
 })
 export class MovieCardComponent implements OnInit, OnDestroy {
   @ViewChild('imageElement') imageElement: ElementRef | undefined;
-  @Input() item: CardModel | undefined;
+  // @Input() item: CardModel | undefined;
   card: CardModel | undefined;
   subscription: Subscription | undefined;
   isLoading = false;

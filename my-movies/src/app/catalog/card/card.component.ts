@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { CardModel } from './card-model.interface';
 import { Router } from '@angular/router';
+import { CartService } from '../../cart/cart.service';
 
 @Component({
   selector: 'app-card',
@@ -10,7 +11,7 @@ import { Router } from '@angular/router';
 export class CardComponent {
   @Input() item: CardModel | undefined;
 
-  constructor(private router: Router){}
+  constructor(private router: Router, private cart: CartService) {}
 
   getReleaseYear() {
     return this.item?.release_date.slice(0, 4);
@@ -21,5 +22,13 @@ export class CardComponent {
       return;
     }
     this.router.navigate(['/catalog', id]);
+  }
+
+  addToCart(event: Event) {
+    event.stopPropagation();
+    if (!this.item) {
+      return;
+    }
+    this.cart.add(this.item);
   }
 }

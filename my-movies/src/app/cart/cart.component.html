@@ -1,5 +1,7 @@
 <div class="cart-component" *ngIf="!isLoading">
-  <table>
+  <table [ngClass]="{'empty': !array.length}">
+    <p class="cart-component__empty" *ngIf="!array.length">Your cart is empty</p>
+    <a class="cart-component__empty-link" routerLink="/catalog" *ngIf="!array.length">Go to catalog</a>
     <tr *ngFor="let item of array" (click)="goToMovieCard(item.id)">
       <td><app-card [item]="item"></app-card></td>
       <td class="price">{{item.price}} $</td>
@@ -7,7 +9,7 @@
     </tr>
   </table>
 
-  <div class="total-price">
+  <div class="total-price" *ngIf="array.length">
     <h2>Total price:<span class="total-price-final">{{totalPrice()}}$</span></h2>
     <ul *ngFor="let item of array">
       <li>{{item.title}}</li>

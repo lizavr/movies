@@ -1,8 +1,7 @@
-import { Injectable, OnInit } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { catchError, map, switchMap, tap } from 'rxjs/operators';
 import { throwError, BehaviorSubject, Observable } from 'rxjs';
-
 import { User } from './user.model';
 
 export interface AuthResponseData {
@@ -17,12 +16,11 @@ export interface AuthResponseData {
 }
 
 @Injectable({ providedIn: 'root' })
-export class AuthService implements OnInit {
+export class AuthService {
   storedDataJSON: string | undefined;
   user = new BehaviorSubject<User | null>(null);
 
-  constructor(private http: HttpClient) {}
-  ngOnInit(): void {
+  constructor(private http: HttpClient) {
     let storedData;
     if (this.storedDataJSON !== null && this.storedDataJSON !== undefined) {
       storedData = JSON.parse(this.storedDataJSON);

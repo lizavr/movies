@@ -2,6 +2,6 @@
   <img class="card-img" src="https://image.tmdb.org/t/p/w300{{ item?.poster_path }}"/>
   <div class="card-tools">
     <p class="card-name">{{item?.title}} ({{getReleaseYear()}})</p>
-    <button>Watch</button>
+    <button (click)="addToCart($event)">Buy</button>
   </div>
 </div>

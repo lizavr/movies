@@ -12,7 +12,9 @@ import { User } from '../auth/user.model';
 })
 export class ProfileComponent implements OnInit {
   user: User | null = null;
+
   constructor(private authService: AuthService) {}
+
   ngOnInit(): void {
     this.authService.user.subscribe((response) => {
       this.user = response;
