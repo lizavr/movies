@@ -1,5 +1,9 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpErrorResponse,
+  HttpHeaders,
+} from '@angular/common/http';
 import { catchError, map, switchMap, tap } from 'rxjs/operators';
 import { throwError, BehaviorSubject, Observable, forkJoin } from 'rxjs';
 import { User } from './user.model';
@@ -16,6 +20,14 @@ export interface AuthResponseData {
   registered?: boolean;
 }
 
+export interface RefreshResponseData {
+  access_token: string;
+  refresh_token: string;
+  id_token: string;
+  user_id: string;
+  expires_in: string;
+}
+
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   user = new BehaviorSubject<User | null>(null);
@@ -26,11 +38,11 @@ export class AuthService {
     if (storedDataJson !== null && storedDataJson !== undefined) {
       storedData = JSON.parse(storedDataJson);
     }
-    let currentUser;
     if (storedData) {
-      currentUser = new User(
+      let currentUser = new User(
         storedData.email,
         storedData.displayName,
+        storedData.refreshToken,
         storedData.id,
         storedData._token,
         new Date(storedData._tokenExpirationDate)
@@ -38,14 +50,43 @@ export class AuthService {
 
       if (currentUser.token) {
         this.user.next(currentUser);
+      } else if (currentUser.refreshToken) {
+        this.refreshToken(currentUser.refreshToken).subscribe({
+          next: (resData) => {
+            this.handleAuthentication(
+              currentUser.email,
+              currentUser.displayName,
+              resData.refresh_token,
+              currentUser.id,
+              resData.id_token,
+              +resData.expires_in
+            );
+          },
+          error: () => {
+            console.log('Refresh token error');
+          },
+        });
       }
     }
+  }
+
+  refreshToken(refreshToken: string): Observable<RefreshResponseData> {
+    return this.http
+      .post<RefreshResponseData>(
+        `${environment.tokenUrl}?key=${environment.apiKey}`,
+        {
+          grant_type: 'refresh_token',
+          refresh_token: refreshToken,
+          returnSecureToken: true,
+        },
+      )
+      .pipe(catchError(this.handleError));
   }
 
   signup(email: string, password: string, userName: string) {
     return this.http
       .post<AuthResponseData>(
-        `${environment.authApiUrl}/signupNewUser?key=${environment.apiKey}`,
+        `${environment.authApiUrl}/relyingparty/signupNewUser?key=${environment.apiKey}`,
         {
           email: email,
           password: password,
@@ -69,6 +110,7 @@ export class AuthService {
           this.handleAuthentication(
             resData.email,
             resData.displayName,
+            resData.refreshToken,
             resData.localId,
             resData.idToken,
             +resData.expiresIn
@@ -81,7 +123,7 @@ export class AuthService {
   login(email: string, password: string) {
     return this.http
       .post<AuthResponseData>(
-        `${environment.authApiUrl}/verifyPassword?key=${environment.apiKey}`,
+        `${environment.authApiUrl}/relyingparty/verifyPassword?key=${environment.apiKey}`,
         {
           email: email,
           password: password,
@@ -94,6 +136,7 @@ export class AuthService {
           this.handleAuthentication(
             resData.email,
             resData.displayName,
+            resData.refreshToken,
             resData.localId,
             resData.idToken,
             +resData.expiresIn
@@ -108,7 +151,7 @@ export class AuthService {
   ): Observable<AuthResponseData> {
     return this.http
       .post<AuthResponseData>(
-        `${environment.authApiUrl}/setAccountInfo?key=${environment.apiKey}`,
+        `${environment.authApiUrl}/relyingparty/setAccountInfo?key=${environment.apiKey}`,
         {
           idToken: responseData.idToken,
           displayName: userName,
@@ -127,11 +170,19 @@ export class AuthService {
     email: string,
     displayName: string,
     userId: string,
+    refreshToken: string,
     token: string,
     expiresIn: number
   ) {
     const expirationDate = new Date(new Date().getTime() + expiresIn * 1000);
-    const user = new User(email, displayName, userId, token, expirationDate);
+    const user = new User(
+      email,
+      displayName,
+      userId,
+      refreshToken,
+      token,
+      expirationDate
+    );
     this.user.next(user);
 
     const userData = {

@@ -18,13 +18,14 @@
 
 table {
   width: 50vw;
-  margin: 5rem auto 5rem 0;
+  margin: 3rem 5rem 3rem 0;
 
   &.empty {
     margin: 5rem auto;
     text-align: center;
   }
 }
+
 th,
 td {
   width: auto;

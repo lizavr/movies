@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 import { CardModel } from './card-model.interface';
 import { Router } from '@angular/router';
 import { CartService } from '../../cart/cart.service';
+import { delay, of } from 'rxjs';
 
 @Component({
   selector: 'app-card',
@@ -10,6 +11,7 @@ import { CartService } from '../../cart/cart.service';
 })
 export class CardComponent {
   @Input() item: CardModel | undefined;
+  addToCartAnimation: boolean = false;
 
   constructor(private router: Router, private cart: CartService) {}
 
@@ -29,7 +31,13 @@ export class CardComponent {
     if (!this.item) {
       return;
     }
+    this.addToCartAnimation = true;
     this.cart.add(this.item);
+    of(null)
+      .pipe(delay(1500))
+      .subscribe(() => {
+        this.addToCartAnimation = false;
+      });
   }
 
   removeFromCart(event: Event) {

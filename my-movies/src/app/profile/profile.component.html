@@ -1,1 +1,7 @@
-<p>Hi {{user?.displayName}}</p>
+<div class="profile-component">
+  <h2>Hi <span>{{user?.displayName}}</span>!</h2>
+  <p *ngIf="!collectionLength"> You have not movies in your collection yet. </p>
+  <p *ngIf="collectionLength"> {{ collectionLength }} movies in your collection. </p>
+  <a class="profile-component__link" routerLink="/collection">Go to collection</a>
+  <p> You can chose new movie for you <a class="profile-component__link" routerLink="/catalog">here</a></p>
+</div>

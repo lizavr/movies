@@ -15,7 +15,9 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { CatalogModule } from './catalog/catalog.module';
 import { CartModule } from './cart/cart.module';
 
-import {MatBadgeModule} from '@angular/material/badge';
+import { MatBadgeModule } from '@angular/material/badge';
+import { CommonModule } from '@angular/common';
+import { ProfileComponent } from './profile/profile.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +25,7 @@ import {MatBadgeModule} from '@angular/material/badge';
     HeaderComponent,
     NotFoundComponent,
     FooterComponent,
+    ProfileComponent
   ],
   imports: [
     HomeModule,
@@ -35,7 +38,8 @@ import {MatBadgeModule} from '@angular/material/badge';
     ReactiveFormsModule,
     FormsModule,
     MatSidenavModule,
-    MatBadgeModule
+    MatBadgeModule,
+    CommonModule,
   ],
   bootstrap: [AppComponent],
 })

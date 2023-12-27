@@ -1,0 +1,9 @@
+@import "../../styles/variables";
+
+.my-collection {
+  display: flex;
+  justify-content: center;
+  gap: 4rem;
+  flex-wrap: wrap;
+  padding: 4rem 0;
+}

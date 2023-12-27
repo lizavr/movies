@@ -6,6 +6,6 @@ import { SharedModule } from '../../shared/shared.module';
 
 @NgModule({
   declarations: [CartComponent],
-  imports: [CartRoutingModule, CommonModule, SharedModule, ],
+  imports: [CartRoutingModule, CommonModule, SharedModule],
 })
 export class CartModule {}
