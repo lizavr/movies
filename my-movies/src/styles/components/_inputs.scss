@@ -62,6 +62,7 @@ select {
 }
 
 select,
+textarea,
 input:not([type="submit"], [type="button"], [type="reset"]) {
   @media (hover: hover) {
     &:hover {
@@ -91,7 +92,7 @@ input:not([type="submit"], [type="button"], [type="reset"]) {
 
 //radio-buttons
 
-input~label{
+input ~ label {
   cursor: pointer;
 }
 

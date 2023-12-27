@@ -11,6 +11,7 @@ import { delay, of } from 'rxjs';
 })
 export class CardComponent {
   @Input() item: CardModel | undefined;
+  @Input() hasActions: boolean = false;
   addToCartAnimation: boolean = false;
 
   constructor(private router: Router, private cart: CartService) {}

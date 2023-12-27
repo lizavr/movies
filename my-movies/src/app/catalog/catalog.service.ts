@@ -1,10 +1,11 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Output } from '@angular/core';
 import { CardModel } from './card/card-model.interface';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/internal/Observable';
 import { map, shareReplay } from 'rxjs/operators';
 import { CardFilter } from '../core/types';
 import { environment } from '../../environments/environment';
+import { BehaviorSubject } from 'rxjs';
 // import { ObservableInput } from 'rxjs';
 
 @Injectable({
@@ -12,6 +13,7 @@ import { environment } from '../../environments/environment';
 })
 export class CatalogService {
   cache: Observable<CardModel[]>;
+  movieUpdated = new BehaviorSubject<CardModel | null>(null);
 
   constructor(private http: HttpClient) {
     // this.forChangeBD().subscribe();
@@ -59,6 +61,37 @@ export class CatalogService {
           )[0];
       })
     );
+  }
+
+  update(id: number, title: string, description: string, language: string, release: string) {
+    this.cache.subscribe({
+      next: (movies) => {
+        var modifiedMovie = movies.find((item) => item.id === id) ?? null;
+        if (modifiedMovie) {
+          modifiedMovie.title = title;
+          modifiedMovie.overview = description;
+          modifiedMovie.original_language = language;
+          modifiedMovie.release_date = release;
+          this.http.put(
+            'https://movies-2a4fe-default-rtdb.europe-west1.firebasedatabase.app/movies/popular.json?key=AIzaSyA010gvs00_nYgB3h-g9M7lkyKLqMI7mHY',
+            movies
+          ).subscribe({
+            next: () => {
+              this.cache = this.http
+                .get<CardModel[]>(
+                  `${environment.apiUrl}/movies/popular.json`
+                )
+              .pipe(shareReplay(1));
+              this.movieUpdated.next(modifiedMovie);
+
+            },
+            error: (err) => {
+              console.error('Failed to update movie', err);
+            }
+          });;
+        }
+      },
+    })
   }
 
   // functionForSendRequestsAndChangeBD(): number {

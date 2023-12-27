@@ -1,7 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AuthService } from '../auth/auth.service';
 import { Subscription } from 'rxjs';
-import { Router } from '@angular/router';
 import { CartService } from '../cart/cart.service';
 
 @Component({
@@ -15,20 +14,25 @@ export class HeaderComponent implements OnInit, OnDestroy {
   isAuthenticated = false;
   userSub: Subscription | undefined;
   cartSubscription: Subscription | undefined;
+  isAdmin = false;
 
-  constructor(private authService: AuthService, private router: Router, private cartService: CartService) {}
+  constructor(
+    private authService: AuthService,
+    private cartService: CartService
+  ) {}
 
   ngOnInit(): void {
     this.userSub = this.authService.user.subscribe((user) => {
       this.isAuthenticated = !!user;
+      this.isAdmin = this.authService.isAdmin();
     });
+
     this.cartSubscription = this.cartService.movies.subscribe((movies) => {
       this.cartItemsCount = movies.length;
     });
 
     if (localStorage.getItem('userData')) {
       this.isAuthenticated = true;
-      this.router.navigate(['/collection']);
     }
   }
 

@@ -22,6 +22,7 @@ export class CatalogComponent implements OnInit, OnDestroy {
   catalogServiceSubscription: Subscription | undefined;
   cartServiceSubscription: Subscription | undefined;
   myCollectionServiceSubscription: Subscription | undefined;
+  movieUpdatedSubscription: Subscription | undefined;
   panelFilters: CardFilter[] | undefined;
   searchFilter: CardFilter | undefined;
 
@@ -35,22 +36,39 @@ export class CatalogComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.isLoading = true;
     this.spinner.show('sp5');
-    this.cartServiceSubscription =
-      this.catalogService.getAllCards().subscribe((cards: CardModel[]) => {
+    this.cartServiceSubscription = this.catalogService
+      .getAllCards()
+      .subscribe((cards: CardModel[]) => {
         this.updateCards(cards);
         this.spinner.hide('sp5');
         this.isLoading = false;
       });
-    this.cartServiceSubscription =
-      this.cartService.movies.subscribe((cards: CardModel[]) => {
+    this.cartServiceSubscription = this.cartService.movies.subscribe(
+      (cards: CardModel[]) => {
         this.cartItems = cards;
         this.updateIsInCart();
-      });
-      this.myCollectionServiceSubscription =
+      }
+    );
+    this.myCollectionServiceSubscription =
       this.myCollectionService.movies.subscribe((cards: CardModel[]) => {
         this.myCollectionItems = cards;
         this.updateCollectionItems();
       });
+    this.movieUpdatedSubscription = this.catalogService.movieUpdated.subscribe(
+      (updatedMovie) => {
+        if (updatedMovie) {
+          const movieToUpdate = this.cards
+            .flat()
+            .find((item) => item.id === updatedMovie.id);
+          if (movieToUpdate) {
+            movieToUpdate.title = updatedMovie.title;
+            movieToUpdate.overview = updatedMovie.overview;
+            movieToUpdate.original_language = updatedMovie.original_language;
+            movieToUpdate.release_date = updatedMovie.release_date;
+          }
+        }
+      }
+    );
   }
 
   onFiltersChanged(cardFilters: CardFilter[]) {
@@ -81,7 +99,7 @@ export class CatalogComponent implements OnInit, OnDestroy {
       });
   }
 
-  updateCards(cards: CardModel[] ) {
+  updateCards(cards: CardModel[]) {
     this.cards = this.createRows(cards);
     this.updateIsInCart();
     this.updateCollectionItems();
@@ -89,13 +107,17 @@ export class CatalogComponent implements OnInit, OnDestroy {
 
   updateIsInCart() {
     this.cards.flat().forEach((item) => {
-        item.isInCart = this.cartItems.some((cartItem) => item.id === cartItem.id);
+      item.isInCart = this.cartItems.some(
+        (cartItem) => item.id === cartItem.id
+      );
     });
   }
 
   updateCollectionItems() {
     this.cards.flat().forEach((item) => {
-        item.isInCollection = this.myCollectionItems.some((collectionItem) => item.id === collectionItem.id);
+      item.isInCollection = this.myCollectionItems.some(
+        (collectionItem) => item.id === collectionItem.id
+      );
     });
   }
 
@@ -113,5 +135,6 @@ export class CatalogComponent implements OnInit, OnDestroy {
     this.catalogServiceSubscription?.unsubscribe();
     this.cartServiceSubscription?.unsubscribe();
     this.myCollectionServiceSubscription?.unsubscribe();
+    this.movieUpdatedSubscription?.unsubscribe();
   }
 }

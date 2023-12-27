@@ -3,6 +3,7 @@ import { CartService } from './cart.service';
 import { Subscription } from 'rxjs';
 import { CardModel } from '../catalog/card/card-model.interface';
 import { Router } from '@angular/router';
+import { CatalogService } from '../catalog/catalog.service';
 
 @Component({
   selector: 'app-cart',
@@ -14,7 +15,7 @@ export class CartComponent implements OnInit, OnDestroy {
   array: CardModel[] = [];
   isLoading = false;
 
-  constructor(private cart: CartService, private router: Router) {}
+  constructor(private cart: CartService, private router: Router, private catalogService: CatalogService) {}
 
   ngOnInit(): void {
     this.subscription = this.cart.movies.subscribe((updatedMovies) => this.array = updatedMovies);

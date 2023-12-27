@@ -18,6 +18,7 @@ import { CartModule } from './cart/cart.module';
 import { MatBadgeModule } from '@angular/material/badge';
 import { CommonModule } from '@angular/common';
 import { ProfileComponent } from './profile/profile.component';
+import { NewMovieLoadModule } from './new-movie-load/new-movie-load.module';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { ProfileComponent } from './profile/profile.component';
     CatalogModule,
     MyCollectionModule,
     CartModule,
+    NewMovieLoadModule,
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,

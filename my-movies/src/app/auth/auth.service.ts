@@ -42,8 +42,8 @@ export class AuthService {
       let currentUser = new User(
         storedData.email,
         storedData.displayName,
-        storedData.refreshToken,
         storedData.id,
+        storedData.refreshToken,
         storedData._token,
         new Date(storedData._tokenExpirationDate)
       );
@@ -56,8 +56,8 @@ export class AuthService {
             this.handleAuthentication(
               currentUser.email,
               currentUser.displayName,
-              resData.refresh_token,
               currentUser.id,
+              resData.refresh_token,
               resData.id_token,
               +resData.expires_in
             );
@@ -70,6 +70,13 @@ export class AuthService {
     }
   }
 
+  isAdmin(): boolean {
+    return (
+      this.user.value !== null &&
+      this.user.value?.id === 'JL3fnfNPYjXj46tCCFBIdmLboWq2'
+    );
+  }
+
   refreshToken(refreshToken: string): Observable<RefreshResponseData> {
     return this.http
       .post<RefreshResponseData>(
@@ -78,7 +85,7 @@ export class AuthService {
           grant_type: 'refresh_token',
           refresh_token: refreshToken,
           returnSecureToken: true,
-        },
+        }
       )
       .pipe(catchError(this.handleError));
   }
@@ -110,8 +117,8 @@ export class AuthService {
           this.handleAuthentication(
             resData.email,
             resData.displayName,
-            resData.refreshToken,
             resData.localId,
+            resData.refreshToken,
             resData.idToken,
             +resData.expiresIn
           );
@@ -136,8 +143,8 @@ export class AuthService {
           this.handleAuthentication(
             resData.email,
             resData.displayName,
-            resData.refreshToken,
             resData.localId,
+            resData.refreshToken,
             resData.idToken,
             +resData.expiresIn
           );
@@ -188,6 +195,7 @@ export class AuthService {
     const userData = {
       email: email,
       displayName: displayName,
+      refreshToken: refreshToken,
       id: userId,
       _token: token,
       _tokenExpirationDate: expirationDate.toISOString(),

@@ -6,6 +6,7 @@
       <a routerLink="/catalog" routerLinkActive="active" class="menu-block__item">Catalog</a>
       <a routerLink="/collection" routerLinkActive="active" class="menu-block__item" *ngIf="isAuthenticated">My
         collection</a>
+      <a routerLink="/new-movie-load" routerLinkActive="active" class="menu-block__item" *ngIf="isAdmin">Add new movie</a>
     </div>
     <div class="navigation__tools">
       <!-- <a routerLink="/auth/login" routerLinkActive="active" class="auth" *ngIf="!isAuthenticated">

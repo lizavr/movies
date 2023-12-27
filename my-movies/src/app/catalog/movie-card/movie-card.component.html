@@ -10,18 +10,38 @@
           (click)="toggleFullScreen()" #imageElement/> -->
         <img class="movie-card-left-img" [src]="'https://image.tmdb.org/t/p/w1280' + card?.backdrop_path"
           (click)="toggleFullScreen()" #imageElement />
-        <p *ngIf="card?.isInCollection">✔</p>
+        <p class="movie-card-in-collection" *ngIf="card?.isInCollection">in my collection <span
+            class="movie-card-mark">✔</span> </p>
         <button (click)="addToCart(card)" *ngIf="!card?.isInCollection && !card?.isInCart">Buy</button>
         <button (click)="removeFromCart(card)" *ngIf="!card?.isInCollection && card?.isInCart">Remove</button>
       </div>
     </as-split-area>
     <as-split-area [size]="40">
       <div class="movie-card-right">
-        <h2>{{card?.title}}</h2>
-        <p class="rating"><span>Rating:</span> {{ card?.vote_average | number:'1.2-2'}}</p>
-        <p class="movie-card-right-description">{{ card?.overview}}</p>
-        <p class="language"><span>Original language:</span> {{ card?.original_language | uppercase}} </p>
-        <p class="release"><span>Release date:</span> {{ card?.release_date }}</p>
+        <button class="edit" (click)="onEditMode()" *ngIf="isAdmin && !isEditMode">Edit</button>
+
+        <div *ngIf="isEditMode; else viewTemplate">
+
+          <form [formGroup]="myFormEdit">
+            <input formControlName="title" name="title" [(ngModel)]="title" />
+            <textarea rows="5" formControlName="description" name="description" [(ngModel)]="description"></textarea>
+            <input formControlName="language" name="language" [(ngModel)]="language" />
+            <input formControlName="release" name="release" [(ngModel)]="release" />
+
+            <div class="edit-buttons">
+              <button type="button" (click)="onCancel()">Cancel</button>
+              <button type="button" (click)="onSave()">Save</button>
+            </div>
+          </form>
+
+        </div>
+        <ng-template #viewTemplate>
+          <h2>{{card?.title}}</h2>
+          <p class="rating"><span>Rating:</span> {{ card?.vote_average | number:'1.2-2'}}</p>
+          <p class="movie-card-right-description">{{ card?.overview}}</p>
+          <p class="language"><span>Original language:</span> {{ card?.original_language | uppercase}} </p>
+          <p class="release"><span>Release date:</span> {{ card?.release_date }}</p>
+        </ng-template>
       </div>
     </as-split-area>
   </as-split>

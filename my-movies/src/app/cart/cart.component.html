@@ -3,7 +3,7 @@
     <p class="cart-component__empty" *ngIf="!array.length">Your cart is empty</p>
     <a class="cart-component__empty-link" routerLink="/catalog" *ngIf="!array.length">Go to catalog</a>
     <tr *ngFor="let item of array" (click)="goToMovieCard(item.id)">
-      <td><app-card [item]="item"></app-card></td>
+      <td><app-card [item]="item" [hasActions]="false"></app-card></td>
       <td class="price">{{item.price}} $</td>
       <td><button (click)="remove(item.id, $event)">Remove</button></td>
     </tr>

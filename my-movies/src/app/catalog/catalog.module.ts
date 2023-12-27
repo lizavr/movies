@@ -11,6 +11,7 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
 import { FiltersModule } from './filters/filters.module';
 import { CardsRowComponent } from './cards-row/cards-row.component';
 import { SharedModule } from '../../shared/shared.module';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [CatalogComponent, CardsRowComponent, MovieCardComponent],
@@ -23,6 +24,7 @@ import { SharedModule } from '../../shared/shared.module';
     ScrollingModule,
     FiltersModule,
     SharedModule,
+    ReactiveFormsModule,
   ],
 })
 export class CatalogModule {}

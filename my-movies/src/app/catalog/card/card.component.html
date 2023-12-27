@@ -3,8 +3,8 @@
   <img class="card-img {{ addToCartAnimation ? 'copy' : '' }}" src="https://image.tmdb.org/t/p/w300{{ item?.poster_path }}"/>
   <div class="card-tools">
     <p class="card-name">{{item?.title}} ({{getReleaseYear()}})</p>
-    <p class="card-mark" *ngIf="item?.isInCollection">✔</p>
-    <button (click)="addToCart($event)" *ngIf="!item?.isInCollection && !item?.isInCart">Buy</button>
-    <button (click)="removeFromCart($event)" *ngIf="!item?.isInCollection && item?.isInCart">Remove</button>
+    <p class="card-mark" *ngIf="hasActions && item?.isInCollection">✔</p>
+    <button (click)="addToCart($event)" *ngIf="hasActions && !item?.isInCollection && !item?.isInCart">Buy</button>
+    <button (click)="removeFromCart($event)" *ngIf="hasActions && !item?.isInCollection && item?.isInCart">Remove</button>
   </div>
 </div>

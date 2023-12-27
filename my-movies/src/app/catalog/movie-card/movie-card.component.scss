@@ -38,10 +38,20 @@ button {
   width: 20vw;
   margin: 0 1rem 0 auto;
   font-size: 1.2rem;
+
+  &.edit {
+    width: 10vw;
+    background-color: $background-color;
+    border: 1px solid $text-color;
+    color: $text-color;
+    &:hover {
+      background-color: $menu-background-color;
+    }
+  }
 }
 
 .movie-card-right {
-  padding-top: 20vh;
+  padding-top: 15vh;
   padding-left: 5vw;
   text-align: justify;
   font-size: 1.1rem;
@@ -80,4 +90,40 @@ button {
   height: 100%;
   object-fit: cover;
   z-index: 1000;
+}
+
+.movie-card-mark {
+  color: $focus-color;
+  margin: auto 0;
+  font-size: 2rem;
+}
+
+.movie-card-in-collection {
+  font-size: 2rem;
+}
+
+.edit-buttons {
+  display: flex;
+  flex-direction: row;
+}
+
+input,
+textarea {
+  display: block;
+  color: $text-color;
+  background-color: $background-color;
+  border: 1px solid $focus-color;
+  margin-bottom: 2rem;
+  width: 80%;
+  &:hover {
+    background-color: $menu-background-color;
+  }
+  &:active {
+    background-color: $menu-background-color;
+  }
+}
+
+textarea {
+  padding: 1rem;
+  border-radius: 10px;
 }
