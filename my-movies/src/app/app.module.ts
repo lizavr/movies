@@ -15,6 +15,8 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { CatalogModule } from './catalog/catalog.module';
 import { CartModule } from './cart/cart.module';
 
+import {MatBadgeModule} from '@angular/material/badge';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -33,6 +35,7 @@ import { CartModule } from './cart/cart.module';
     ReactiveFormsModule,
     FormsModule,
     MatSidenavModule,
+    MatBadgeModule
   ],
   bootstrap: [AppComponent],
 })
