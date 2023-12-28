@@ -6,7 +6,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { CardModel } from '../card/card-model.interface';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CatalogService } from '../catalog.service';
 import { Subscription } from 'rxjs';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -43,6 +43,7 @@ export class MovieCardComponent implements OnInit, OnDestroy {
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private catalogService: CatalogService,
     private spinner: NgxSpinnerService,
     private authService: AuthService,
@@ -85,6 +86,10 @@ export class MovieCardComponent implements OnInit, OnDestroy {
   }
 
   addToCart(card: CardModel | undefined) {
+    if (!this.authService.user.value) {
+      this.router.navigate(['/auth/login']);
+      return;
+    }
     if (!card) {
       return;
     }
@@ -106,7 +111,13 @@ export class MovieCardComponent implements OnInit, OnDestroy {
     if (!this.card) {
       return;
     }
-    this.catalogService.update(this.card.id, this.title, this.description, this.language, this.release);
+    this.catalogService.update(
+      this.card.id,
+      this.title,
+      this.description,
+      this.language,
+      this.release
+    );
     this.isEditMode = !this.isEditMode;
   }
 
