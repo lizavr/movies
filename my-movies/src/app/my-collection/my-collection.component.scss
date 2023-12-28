@@ -6,4 +6,13 @@
   gap: 4rem;
   flex-wrap: wrap;
   padding: 4rem 0;
+
+  &__empty,
+  &__empty-link {
+    font-size: 1.5rem;
+    color: $text-color;
+    margin: 3rem auto;
+    width: 100%;
+    text-align: center;
+  }
 }

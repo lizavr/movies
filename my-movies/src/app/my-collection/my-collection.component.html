@@ -1,3 +1,6 @@
-<div class="my-collection" >
+<div class="my-collection">
+  <p class="my-collection__empty" *ngIf="!collection.length">Your cart is empty</p>
+  <a class="my-collection__empty-link" routerLink="/catalog" *ngIf="!collection.length">Go to catalog</a>
+
   <app-card *ngFor="let item of collection" [item]="item" [hasActions]="false"></app-card>
 </div>
